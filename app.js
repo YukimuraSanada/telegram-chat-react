@@ -4,15 +4,17 @@ const TelegramBot = require('node-telegram-bot-api');
 const config = require('./config');
 const token = config.token;
 
-
 const bot = new TelegramBot(token, {polling: true});
 
-console.log('hello');
+console.log('START...');
 
+// bot.getMe().then((data)=>{
+//   console.log(data);
+// })
 
-bot.getMe().then((data)=>{
-  console.log(data);
-})
+// bot.on( 'new_chat_members', msg =>{
+//   console.log(msg);
+// })
 
 bot.on('message', (msg) => {
   let firstName = msg.from.first_name || '';
@@ -20,5 +22,5 @@ bot.on('message', (msg) => {
   let fullName = `${firstName} ${lastName}`
   let id = msg.from.id || '';
   let username = `@${msg.from.username}` || '';
-  console.log(`${fullName} ${lastName} ${id} ${username}`);
-});
+  console.log(`${fullName} ${lastName} ${id} ${username} : ${msg.text}`);
+ });
