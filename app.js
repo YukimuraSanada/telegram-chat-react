@@ -1,20 +1,20 @@
 process.env["NTBA_FIX_319"] = 1;
-
 const TelegramBot = require('node-telegram-bot-api');
 const config = require('./config');
-const token = config.token;
-
-const bot = new TelegramBot(token, {polling: true});
+const MongoClient = require('mongodb').MongoClient;
+const bot = new TelegramBot(config.token, {polling: true});
 
 console.log('START...');
 
-// bot.getMe().then((data)=>{
-//   console.log(data);
-// })
-
-// bot.on( 'new_chat_members', msg =>{
-//   console.log(msg);
-// })
+var uri = `mongodb+srv://nzvtrk:${config.mongoPass}@cluster0-obz3f.mongodb.net/test`;
+MongoClient.connect(uri, function(err, client) {
+  if(err){
+          return console.log(err);
+      }
+   const collection = client.db("test").collection("devices");
+   // perform actions on the collection object
+   client.close();
+});
 
 bot.on('message', (msg) => {
   let firstName = msg.from.first_name || '';
