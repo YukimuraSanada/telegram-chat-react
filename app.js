@@ -13,7 +13,12 @@ MongoClient.connect(uri, function(err, client) {
   console.log(`Successful Connection to mongo!`);
 
   const collection = client.db("test").collection("dd");
-  collection.stats().then(res => console.log(res))
+  //Get all collection
+  collection.find().toArray( (err,res) =>{
+    err ? console.log(err) : console.log(res);
+  })
+  // Add uniq document
+  // collection.update({name : "adsaadsq"}, {name: "qsadsdd", age : 25}, {upsert: true})
 
   client.close();
 });
