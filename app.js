@@ -4,29 +4,29 @@ const config = require('./config');
 const MongoClient = require('mongodb').MongoClient;
 // const bot = new TelegramBot(config.token, {polling: true});
 console.log('START...');
-console.log(mongoUri);
+
 
 // db.collection("dd").remove({});
 
-// MongoClient.connect(mongoUri, function(err, client) {
-//   if(err){
-//     return console.log(err);
-//   }
-//   console.log(`Successful Connection to mongo!`);
-//   const collection = client.db('foo').collection("dd");
-//
-//   //     collection.update(
-//   //       {id:id},
-//   //       {id:id,username:userName,fullname:fullName},
-//   //       {upsert:true}
-//   //     )
-//
-//     collection.find().toArray( (err,res)=>{
-//     err ? console.log(err) : console.log(res);
-//   })
-//
-//   client.close();
-// });
+MongoClient.connect(config.mongoUri, function(err, client) {
+  if(err){
+    return console.log(err);
+  }
+  console.log(`Successful Connection to mongo!`);
+  const collection = client.db('foo').collection("dd");
+
+  //     collection.update(
+  //       {id:id},
+  //       {id:id,username:userName,fullname:fullName},
+  //       {upsert:true}
+  //     )
+
+    collection.find().toArray( (err,res)=>{
+    err ? console.log(err) : console.log(res);
+  })
+
+  client.close();
+});
 
 
 
