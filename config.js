@@ -1,6 +1,11 @@
 
-// module.exports.token = 'token';
+module.exports.token = '514330319:AAEWL5PkZ21GIt3I65vE9-0vAMRgGf9YaJQ';
+
+
+
+// Conf for mongoDB Atlas
 // const mongoPass = 'mongopass';
 // module.exports.mongoUri = `mongodb://nzvtrk:${mongoPass}@cluster0-shard-00-00-obz3f.mongodb.net:27017,cluster0-shard-00-01-obz3f.mongodb.net:27017,cluster0-shard-00-02-obz3f.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin`;
 
-module.exports.mongoUri = 'mongodb://192.168.0.5/';
+//conf for localhost
+module.exports.mongoUri = 'mongodb://127.0.0.1:27017';
