@@ -1,7 +1,5 @@
 
-module.exports.token = 'telegramToken';
-
-
+module.exports.token = 'telegrambotToken';
 
 // Conf for mongoDB Atlas
 // const mongoPass = 'mongopass';
