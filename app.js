@@ -15,11 +15,11 @@ MongoClient.connect(config.mongoUri, function(err, client) {
   console.log(`Successful Connection to mongo!`);
   const collection = client.db('foo').collection("dd");
 
-  //     collection.update(
-  //       {id:id},
-  //       {id:id,username:userName,fullname:fullName},
-  //       {upsert:true}
-  //     )
+      collection.update(
+        {id:'sdsds'},
+        {id:'sdsds',username:'dddd',fullname:'dddd'},
+        {upsert:true}
+      )
 
     collection.find().toArray( (err,res)=>{
     err ? console.log(err) : console.log(res);
