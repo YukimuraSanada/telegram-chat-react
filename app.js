@@ -44,7 +44,7 @@ bot.on('message', (msg) => {
       return console.log(err);
     }
     console.log(`Successful Connection to mongo!`);
-    const collection = client.db('test').collection("dd");
+    const collection = client.db('main').collection("users");
     collection.update(
       {id:id},
       {id:id,username:userName,fullname:fullName},

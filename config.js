@@ -1,5 +1,5 @@
 
-module.exports.token = '514330319:AAEWL5PkZ21GIt3I65vE9-0vAMRgGf9YaJQ';
+module.exports.token = 'telegramToken';
 
 
 
