@@ -6,4 +6,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
