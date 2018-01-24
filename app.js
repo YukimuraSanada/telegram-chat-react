@@ -49,6 +49,6 @@ io.sockets.on('connection', function (socket) {
     // });
     let res = `${fullName} ${id} ${userName} : ${msg.text}`;
     console.log(res);
-    socket.emit('news', res);
+    socket.emit('newUser', res);
   });
 });

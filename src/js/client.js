@@ -1,14 +1,12 @@
 import io from 'socket.io-client';
 import axios from 'axios';
 import mui from 'muicss/dist/js/mui';
-
-const socket = io('http://localhost');
+import '../css/style.scss';
 
 window.onload = () => {
-
   //socket  for display  updates list
   var socket = io.connect('http://localhost');
-  socket.on('news', function (data) {
+  socket.on('newUser', function (data) {
     console.log(data);
   });
 
@@ -40,7 +38,7 @@ window.onload = () => {
     }).then( () => {
       res.innerHTML = 'Form was successfully sent!';
       resetform(form);
-    }).catch( ()=>{
+    }).catch( ()=> {
       res.innerHTML = 'An error occurred!';
       resetform(form);
     });
