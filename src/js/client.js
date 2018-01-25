@@ -5,7 +5,7 @@ import '../css/style.scss';
 
 window.onload = () => {
   //socket  for display  updates list
-  var socket = io.connect('http://localhost');
+  let socket = io.connect('http://localhost');
   socket.on('newUser', function (data) {
     console.log(data);
   });
@@ -13,7 +13,7 @@ window.onload = () => {
   //ajax form
   let form = document.querySelector('form');
 
-  let resetform = (el) =>{
+  let resetform = el =>{
     el.reset();
     el.querySelectorAll('input').forEach( i => {
       i.classList.remove('mui--is-not-empty');
@@ -21,19 +21,16 @@ window.onload = () => {
     el.querySelector('textarea').classList.remove('mui--is-not-empty');
   };
 
-  form.onsubmit = (e) => {
+  form.onsubmit = e => {
     e.preventDefault();
-    let inp1 = document.querySelector('input[name="input1"]');
-    let inp2 = document.querySelector('input[name="input2"]');
-    let textar = document.querySelector('textarea[name="textarea"]');
     let res = document.querySelector('.result');
     axios({
       method: 'POST',
       url: '/test',
       data: {
-        'input1': inp1.value,
-        'input2': inp2.value,
-        'textarea': textar.value
+        'input1': document.querySelector('input[name="input1"]').value,
+        'input2': document.querySelector('input[name="input2"]').value,
+        'textarea': document.querySelector('textarea[name="textarea"]').value
       }
     }).then( () => {
       res.innerHTML = 'Form was successfully sent!';

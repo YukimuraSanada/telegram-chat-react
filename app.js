@@ -13,11 +13,11 @@ app.use(express.static('assets'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-http.listen(80, function(){
+http.listen(80, () => {
   console.log('listening on *:80');
 });
 
-app.post('/test', function (req, res) {
+app.post('/test', (req, res) => {
   console.log(req.body.textarea);
   res.json({
     status: 200,
@@ -25,8 +25,8 @@ app.post('/test', function (req, res) {
   });
 });
 
-io.sockets.on('connection', function (socket) {
-  bot.on('message', (msg) => {
+io.sockets.on('connection', socket => {
+  bot.on('message', msg => {
     let firstName,lastName,fullName,id,userName,eventType;
     eventType = ('new_chat_member' in msg) ? 'new_chat_member' : 'from';
     firstName = msg[eventType].first_name || '';
