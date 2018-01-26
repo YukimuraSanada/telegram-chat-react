@@ -2,10 +2,10 @@ const path = require('path');
 const MinifyPlugin = require("babel-minify-webpack-plugin");
 
 module.exports = {
-  entry: './src/js/client.js',
+  entry: './views/src/js/client.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'assets/js')
+    path: path.resolve(__dirname, 'views/public/js')
   },
   plugins: [
     new MinifyPlugin(true, { test: /\.js$/ })

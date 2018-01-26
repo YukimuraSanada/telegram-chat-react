@@ -1,28 +1,18 @@
 process.env['NTBA_FIX_319'] = 1;
 const TelegramBot = require('node-telegram-bot-api');
-const config = require('./config');
+const cfg = require('./config');
 const MongoClient = require('mongodb').MongoClient;
-const bot = new TelegramBot(config.token, {polling: true});
+const bot = new TelegramBot(cfg.token, {polling: true});
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 var http = require('http').Server(app);
 const io = require('socket.io')(http);
+require('./routes')(app);
 
-app.use(express.static('assets'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('views/public'));
 
 http.listen(80, () => {
   console.log('listening on *:80');
-});
-
-app.post('/test', (req, res) => {
-  console.log(req.body.textarea);
-  res.json({
-    status: 200,
-    message: 'Ok'
-  });
 });
 
 io.sockets.on('connection', socket => {
@@ -34,7 +24,7 @@ io.sockets.on('connection', socket => {
     fullName = `${firstName} ${lastName}`;
     id = msg[eventType].id || '';
     userName = msg[eventType].username ? `@${msg[eventType].username}` : '';
-    // MongoClient.connect(config.mongoUri, function(err, client) {
+    // MongoClient.connect(cfg.mongoUri, function(err, client) {
     //   if(err){
     //     return console.log(err);
     //   }
