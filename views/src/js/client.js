@@ -1,15 +1,8 @@
-import io from 'socket.io-client';
 import axios from 'axios';
 import mui from 'muicss/dist/js/mui';
 import '../css/style.scss';
 
 window.onload = () => {
-  //socket  for display  updates list
-  let socket = io.connect('http://localhost');
-  socket.on('newUser', function (data) {
-    console.log(data);
-  });
-
   //ajax form
   let form = document.querySelector('form');
 

@@ -9,8 +9,7 @@
     "express": "^4.16.2",
     "mongodb": "^3.0.1",
     "muicss": "^0.9.35",
-    "node-telegram-bot-api": "^0.30.0",
-    "socket.io": "^2.0.4"
+    "node-telegram-bot-api": "^0.30.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.38",
