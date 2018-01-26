@@ -14,8 +14,7 @@ app.listen(80, () => {
   console.log('listening on *:80');
 });
 
-// queries.getData();
-// queries.getData();
+queries.getData();
 // queries.clear();
 // bot.on('message', msg => {
 //   queries.addUser(msg);
