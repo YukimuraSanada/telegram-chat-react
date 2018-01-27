@@ -1,6 +1,6 @@
 module.exports = {
   port : 80,
-  token : 'telegrambotToken',
+  token : 'telegramToken',
   mongoUri : 'mongodb://127.0.0.1:27017'
   // Conf for mongoDB Atlas
   // mongoPass : 'mongopass';

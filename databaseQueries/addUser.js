@@ -1,7 +1,6 @@
-const MongoClient = require('mongodb').MongoClient;
-const cfg = require('../config');
+const dbconn =  require('./dbConnect');
 
-module.exports = msg =>{
+module.exports = msg => {
   let firstName,lastName,fullName,id,userName,eventType;
   eventType = ('new_chat_member' in msg) ? 'new_chat_member' : 'from';
   firstName = msg[eventType].first_name || '';
@@ -9,7 +8,7 @@ module.exports = msg =>{
   fullName = `${firstName} ${lastName}`;
   id = msg[eventType].id || '';
   userName = msg[eventType].username ? `@${msg[eventType].username}` : '';
-  MongoClient.connect(cfg.mongoUri, function(err, client) {
+  dbconn( (err, client) => {
     if(err){
       return console.log(err);
     }

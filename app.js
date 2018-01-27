@@ -6,7 +6,7 @@ const express = require('express');
 const app = express();
 
 const queries = require('./databaseQueries');
-// require('./routes')(app);
+require('./routes')(app);
 
 app.use(express.static('views/public'));
 

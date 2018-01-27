@@ -1,9 +1,8 @@
-const MongoClient = require('mongodb').MongoClient;
-const cfg = require('../config');
+const dbconn =  require('./dbConnect');
 
 module.exports = () => {
 
-  MongoClient.connect(cfg.mongoUri, function(err, client) {
+  dbconn( (err, client) => {
     if(err){
       return console.log(err);
     }
