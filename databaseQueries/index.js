@@ -1,5 +1,5 @@
 module.exports = {
-  getData : require('./getData'),
+  getCollection : require('./getCollection'),
   addUser : require('./addUser'),
-  clear : require('./clearCollection')
+  clearCollection : require('./clearCollection')
 };
