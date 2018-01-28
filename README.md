@@ -4,7 +4,6 @@
 + ~~Create Telegram Bot~~
 + ~~Install and configure node-telegram-api for listen some events on chats~~
 + ~~Install and configure MongoDB && MongoDB driver for node.js~~
-+ configure mongoDB poolsize and add connection checker
 + ~~Add new/update old users to MongoDB collection from listener 'message'~~
 + ~~Install and configure express or something else~~
 + Set up webhook(?)

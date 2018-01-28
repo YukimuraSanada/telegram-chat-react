@@ -21,14 +21,14 @@ window.onload = () => {
       method: 'POST',
       url: '/test',
       data: {
-        'input1': document.querySelector('input[name="input1"]').value,
-        'input2': document.querySelector('input[name="input2"]').value,
         'textarea': document.querySelector('textarea[name="textarea"]').value
       }
     }).then( () => {
+      res.style.display = 'block';
       res.innerHTML = 'Form was successfully sent!';
       resetform(form);
     }).catch( ()=> {
+      res.style.display = 'block';
       res.innerHTML = 'An error occurred!';
       resetform(form);
     });

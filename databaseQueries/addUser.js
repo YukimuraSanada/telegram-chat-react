@@ -12,7 +12,10 @@ module.exports = (msg,collection) => {
     {id:id},
     {id:id,username:userName,fullname:fullName},
     {upsert:true}
-  );
+  ).then( res => console.log('Update!'),
+    err => console.log('Error'))
+    .then( data => console.log('finished'));
+
 
   console.log(`new message : ${fullName} ${id} ${userName} : ${msg.text}`);
 };

@@ -1,3 +1,3 @@
-module.exports = app => {
-  require('./form')(app);
+module.exports = (app,collection) => {
+  require('./form')(app,collection);
 };

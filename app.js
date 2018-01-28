@@ -6,12 +6,8 @@ const MongoClient = require('mongodb').MongoClient;
 const express = require('express');
 const app = express();
 const queries = require('./databaseQueries');
-require('./routes')(app);
 
 app.use(express.static('views/public'));
-app.listen(80, () => {
-  console.log('listening on *:80');
-});
 
 MongoClient.connect(cfg.mongoUri, (err,client) => {
   if (err){
@@ -20,10 +16,15 @@ MongoClient.connect(cfg.mongoUri, (err,client) => {
   console.log('Successful connect to db');
   const collect = client.db('main').collection('users');
 
-  // queries.getCollection(collect);
-  // queries.clearCollection(collect);
-  bot.on('message', msg => {
-    queries.addUser(msg,collect);
+  app.listen(80, () => {
+    console.log('listening on *:80');
   });
+  require('./routes')(app,collect);
+
+  queries.getCollection(collect);
+  // queries.clearCollection(collect);
+  // bot.on('message', msg => {
+  //   queries.addUser(msg,collect);
+  // });
 
 });
