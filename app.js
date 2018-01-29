@@ -10,22 +10,26 @@ const { getCollection, addUser, clearCollection, getUserId} = require('./databas
 
 app.use(express.static('views/public'));
 
-MongoClient.connect(cfg.mongoUri, (err,client) => {
-  if (err){
+(async () => {
+  try{
+    let client = await MongoClient.connect(cfg.mongoUri);
+    console.log('Successful connect to db');
+    const collect = client.db('main').collection('users');
+
+    app.listen(80, () => {
+      console.log('listening on *:80');
+    });
+    require('./routes')(app,collect);
+
+    // queries.getCollection(collect);
+    // queries.clearCollection(collect);
+    bot.on('message', msg => {
+      addUser(msg,collect);
+    });
+  }
+  catch (err){
     console.log(err);
   }
-  console.log('Successful connect to db');
-  const collect = client.db('main').collection('users');
+})();
 
-  app.listen(80, () => {
-    console.log('listening on *:80');
-  });
-  require('./routes')(app,collect);
-
-  // queries.getCollection(collect);
-  // queries.clearCollection(collect);
-  bot.on('message', msg => {
-    addUser(msg,collect);
-  });
-
-});
+// startServer();

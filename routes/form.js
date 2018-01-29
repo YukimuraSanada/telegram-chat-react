@@ -9,12 +9,16 @@ module.exports = (app,collection) => {
     let userName = `@${req.body.textarea}`;
     console.log(userName);
 
-    let fullRequest = async () => {
-      let userCart = await queries.getUserId(userName,collection);
-      let ress = await global.botx.sendMessage(userCart.id,userCart.username);
-      console.log(ress);
-    };
-    fullRequest();
+    ( async () => {
+      try{
+        let userCart = await queries.getUserId(userName,collection);
+        let ress = await global.botx.sendMessage(userCart.id,userCart.username);
+        console.log(ress);
+      }
+      catch(err){
+        console.log(err);
+      }
+    })();
 
     // queries.getUserId(userName,collection)
     //   .then( res => {
