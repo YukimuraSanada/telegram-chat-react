@@ -1,12 +1,19 @@
 module.exports = (userName, collection) => {
 
-  collection.find({username:userName}, {id:true}).toArray( (err,res) => {
-    if (err) {
-      console.log(err);
-    };
-    res.forEach(doc => {
-      console.log(doc.id);
+  return new Promise( (resolve, reject) => {
+
+    collection.find({username:userName}, {id:true}).toArray( (err,res) => {
+      if (err) {
+        reject(err);
+      };
+      res.forEach(doc => {
+        resolve({
+          username : userName,
+          id : doc.id  
+        });
+      });
     });
+
   });
 
 };
