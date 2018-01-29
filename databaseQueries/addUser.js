@@ -8,14 +8,21 @@ module.exports = (msg,collection) => {
   id = msg[eventType].id || '';
   userName = msg[eventType].username ? `@${msg[eventType].username}` : 'NoUserName';
 
-  collection.update(
-    {id:id},
-    {id:id,username:userName,fullname:fullName},
-    {upsert:true}
-  ).then( res => console.log('Update!'),
-    err => console.log('Error'))
-    .then( data => console.log('finished'));
-
+  return (async () =>{
+    try{
+      let res = await collection.update(
+        {id:id},
+        {id:id,username:userName,fullname:fullName},
+        {upsert:true}
+      );
+      if (res){
+        return 'Successful Update';
+      }
+    }
+    catch(err){
+      return err;
+    }
+  })();
 
   console.log(`new message : ${fullName} ${id} ${userName} : ${msg.text}`);
 };

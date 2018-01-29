@@ -1,15 +1,20 @@
 module.exports = collection => {
 
-  collection.count().then(
-    res => {
+
+  return (async () => {
+    try{
+      let res = await collection.count();
       if (res) {
-        collection.drop();
-        console.log('Database successfully dropped');
+        await collection.drop();
+        return 'Database successfully dropped';
       }
       else {
-        console.log('Database is already empty');
+        return 'Database is already empty';
       }
     }
-  );
+    catch(err){
+      err => console.log(err);
+    }
+  })();
 
 };
