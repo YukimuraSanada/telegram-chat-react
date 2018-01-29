@@ -20,18 +20,6 @@ module.exports = (app,collection) => {
       }
     })();
 
-    // queries.getUserId(userName,collection)
-    //   .then( res => {
-    //     console.log(res);
-    //     return global.botx.sendMessage(res,'Hello!');
-    //   })
-    //   .then(
-    //     data => console.log(data)
-    //   )
-    //   .catch(
-    //     err => console.log(err)
-    //   );
-
     res.json({
       status: 200,
       message: 'Ok'

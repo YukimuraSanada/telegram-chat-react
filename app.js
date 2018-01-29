@@ -21,15 +21,13 @@ app.use(express.static('views/public'));
     });
     require('./routes')(app,collect);
 
-    // queries.getCollection(collect);
-    // queries.clearCollection(collect);
-    bot.on('message', msg => {
-      addUser(msg,collect);
-    });
+    console.log(await getCollection(collect));
+    // clearCollection(collect);
+    // bot.on('message', msg => {
+    //   addUser(msg,collect);
+    // });
   }
   catch (err){
     console.log(err);
   }
 })();
-
-// startServer();

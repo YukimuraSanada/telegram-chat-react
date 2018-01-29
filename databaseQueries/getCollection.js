@@ -1,7 +1,12 @@
 module.exports = collection => {
 
-  collection.find().toArray( (err,res) =>{
-    err ? console.log(err) : console.log(res);
-  });
+  return (async () => {
+    try{
+      return await collection.find().toArray();
+    }
+    catch(err){
+      console.log(err);
+    }
+  })();
 
 };
