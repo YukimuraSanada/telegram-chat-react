@@ -1,6 +1,5 @@
 module.exports = collection => {
 
-
   return (async () => {
     try{
       let res = await collection.count();
@@ -13,7 +12,7 @@ module.exports = collection => {
       }
     }
     catch(err){
-      err => console.log(err);
+      console.log(err);
     }
   })();
 

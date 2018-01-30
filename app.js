@@ -23,11 +23,10 @@ app.use(express.static('views/public'));
 
     // console.log(await getCollection(collect));
     // console.log(await clearCollection(collect));
-    bot.on('message', msg => {
-      addUser(msg,collect).then(
-        res => console.log(res),
-        err => console.log(err));
-    });
+    // bot.on('message', async msg => {
+    //   let res = await addUser(msg,collect);
+    //   console.log(res);
+    // });
   }
   catch (err){
     console.log(err);

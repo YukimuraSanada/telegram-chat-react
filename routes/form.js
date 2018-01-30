@@ -1,5 +1,5 @@
 const bodyParser = require('body-parser');
-const queries = require('../databaseQueries');
+const { getUserId } = require('../databaseQueries');
 
 module.exports = (app,collection) => {
 
