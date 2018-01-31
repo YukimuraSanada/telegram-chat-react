@@ -3,12 +3,14 @@
 
 + ~~Create Telegram Bot~~
 + ~~Install and configure node-telegram-api for listen some events on chats~~
-+ ~~Install and configure MongoDB && MongoDB driver for node.js~~
-+ ~~Add new/update old users to MongoDB collection from listener 'message'~~
-+ ~~Install and configure express or something else~~
++ ~~Install and configure MongoDB && MongoDB-native driver for node.js~~
++ ~~Add new/update old users to MongoDB collection from tbot EE~~
++ ~~Install and configure express~~
++ ~~Add frontend~~
++ Refactor from callbacks to async/await
++ Configure error handling
++ Add methods to kick user (REST)
 + Set up webhook(?)
-+ ~~Add front (view)~~
-+ Add methods to delete/get user (REST)
 + Deploy on VDS(debian 8)
   + ~~install node js~~
   + ~~install mongodb~~

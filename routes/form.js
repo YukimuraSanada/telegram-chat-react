@@ -1,7 +1,7 @@
 const bodyParser = require('body-parser');
-const { getUserId } = require('../databaseQueries');
+const { kickChatMember } = require('../operations/botrequests');
 
-module.exports = (app,collection) => {
+module.exports = (app) => {
 
   app.use('/test', bodyParser.json());
   app.use('/test', bodyParser.urlencoded({ extended: true }));
@@ -9,21 +9,26 @@ module.exports = (app,collection) => {
     let userName = `@${req.body.textarea}`;
     console.log(userName);
 
-    ( async () => {
+    // TODO error handling here!
+
+    (async () => {
       try{
-        let userCart = await queries.getUserId(userName,collection);
-        let ress = await global.botx.sendMessage(userCart.id,userCart.username);
-        console.log(ress);
+        await kickChatMember(userName);
+        res.json({
+          status: 200,
+          message: 'Ok'
+        });
       }
       catch(err){
-        console.log(err);
+        res.json({
+          status: 500,
+          message: `userName ${userName} doesnt exist. ${err}`
+        });
       }
+
     })();
 
-    res.json({
-      status: 200,
-      message: 'Ok'
-    });
+
   });
 
 };

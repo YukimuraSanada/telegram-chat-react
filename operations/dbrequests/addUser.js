@@ -1,4 +1,4 @@
-module.exports = (msg,collection) => {
+module.exports = (msg) => {
 
   let firstName,lastName,fullName,id,userName,eventType;
   eventType = ('new_chat_member' in msg) ? 'new_chat_member' : 'from';
@@ -8,20 +8,16 @@ module.exports = (msg,collection) => {
   id = msg[eventType].id || '';
   userName = msg[eventType].username ? `@${msg[eventType].username}` : 'NoUserName';
 
-  return (async () =>{
-    try{
-      let res = await collection.update(
-        {id:id},
-        {id:id,username:userName,fullname:fullName},
-        {upsert:true}
-      );
-      if (res){
-        return 'Successful Update';
-      }
-    }
-    catch(err){
-      return err;
-    }
+  return (async () => {
+
+    let data = await global.collect.update(
+      {id:id},
+      {id:id,username:userName,fullname:fullName},
+      {upsert:true}
+    );
+
+    return data.result.ok;
+
   })();
 
   console.log(`new message : ${fullName} ${id} ${userName} : ${msg.text}`);

@@ -1,10 +1,10 @@
-module.exports = collection => {
+module.exports = () => {
 
   return (async () => {
     try{
-      let res = await collection.count();
+      let res = await global.collect.count();
       if (res) {
-        await collection.drop();
+        await global.collect.drop();
         return 'Database successfully dropped';
       }
       else {
@@ -12,7 +12,7 @@ module.exports = collection => {
       }
     }
     catch(err){
-      console.log(err);
+      return `Drop database error ${err}`;
     }
   })();
 

@@ -6,7 +6,7 @@ global.botx = bot;
 const MongoClient = require('mongodb').MongoClient;
 const express = require('express');
 const app = express();
-const { getCollection, addUser, clearCollection, getUserId} = require('./databaseQueries');
+const { addUser, clearCollection } = require('./operations/dbrequests');
 
 app.use(express.static('views/public'));
 
@@ -14,19 +14,23 @@ app.use(express.static('views/public'));
   try{
     let client = await MongoClient.connect(cfg.mongoUri);
     console.log('Successful connect to db');
-    const collect = client.db('main').collection('users');
+    global.collect = client.db('main').collection('users');
+
 
     app.listen(80, () => {
       console.log('listening on *:80');
     });
-    require('./routes')(app,collect);
+    require('./routes')(app);
 
-    // console.log(await getCollection(collect));
-    // console.log(await clearCollection(collect));
-    // bot.on('message', async msg => {
-    //   let res = await addUser(msg,collect);
-    //   console.log(res);
-    // });
+    // // see collection (for dev)
+    // let fullCollection = await global.collect.find().toArray();
+    // console.log(fullCollection);
+
+    // console.log(await clearCollection());
+    bot.on('message', async msg => {
+      let res = await addUser(msg);
+      console.log(res ? 'Successful Update' : 'Updating error');
+    });
   }
   catch (err){
     console.log(err);
