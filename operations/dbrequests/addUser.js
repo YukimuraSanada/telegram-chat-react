@@ -1,5 +1,7 @@
 module.exports = (msg) => {
 
+  // TODO add more than one user from 'new_chat_members'
+
   let firstName,lastName,fullName,id,userName,eventType;
   eventType = ('new_chat_member' in msg) ? 'new_chat_member' : 'from';
   firstName = msg[eventType].first_name || '';
@@ -7,6 +9,7 @@ module.exports = (msg) => {
   fullName = `${firstName} ${lastName}`;
   id = msg[eventType].id || '';
   userName = msg[eventType].username ? `@${msg[eventType].username}` : 'NoUserName';
+
 
   return (async () => {
 
