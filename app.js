@@ -10,7 +10,7 @@ const { addUser, clearCollection } = require('./operations/dbrequests');
 
 app.use(express.static('views/public'));
 
-(async () => {
+let startServer = async () => {
   try{
     let client = await MongoClient.connect(cfg.mongoUri);
     console.log('Successful connect to db');
@@ -23,10 +23,11 @@ app.use(express.static('views/public'));
     require('./routes')(app);
 
     // // see collection (for dev)
-    // let fullCollection = await global.collect.find().toArray();
-    // console.log(fullCollection);
+    let fullCollection = await global.collect.find().toArray();
+    console.log(fullCollection);
 
     // console.log(await clearCollection());
+
     bot.on('message', async msg => {
       let res = await addUser(msg);
       console.log(res ? 'Successful Update' : 'Updating error');
@@ -35,4 +36,6 @@ app.use(express.static('views/public'));
   catch (err){
     console.log(err);
   }
-})();
+};
+
+startServer();

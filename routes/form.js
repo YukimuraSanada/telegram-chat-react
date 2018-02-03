@@ -13,7 +13,8 @@ module.exports = (app) => {
 
     (async () => {
       try{
-        await kickChatMember(userName);
+        let q = await kickChatMember(userName);
+        console.log(q);
         res.json({
           status: 200,
           message: 'Ok'

@@ -1,4 +1,4 @@
-module.exports = (msg) => {
+module.exports = async msg => {
 
   // TODO add more than one user from 'new_chat_members'
 
@@ -10,18 +10,14 @@ module.exports = (msg) => {
   id = msg[eventType].id || '';
   userName = msg[eventType].username ? `@${msg[eventType].username}` : 'NoUserName';
 
+  let data = await global.collect.update(
+    {id:id},
+    {id:id,username:userName,fullname:fullName},
+    {upsert:true}
+  );
 
-  return (async () => {
+  return data.result.ok;
 
-    let data = await global.collect.update(
-      {id:id},
-      {id:id,username:userName,fullname:fullName},
-      {upsert:true}
-    );
-
-    return data.result.ok;
-
-  })();
 
   console.log(`new message : ${fullName} ${id} ${userName} : ${msg.text}`);
 };
