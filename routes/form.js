@@ -1,36 +1,35 @@
 // TODO error handling here!
 
-const bodyParser = require('body-parser');
+var bodyParser = require('koa-bodyparser');
+var Router = require('koa-router');
+var router = new Router();
+
 const { kickChatMember } = require('../operations/botrequests');
 
 module.exports = app => {
 
-  app.use('/test', bodyParser.json());
-  app.use('/test', bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser());
 
-  app.post('/test', async (req, res) => {
-
-    try{
-      let userName = `@${req.body.textarea}`;
-      console.log(userName);
-
-      let q = await kickChatMember(userName);
-      console.log(q);
-
-      res.json({
-        status: 200,
-        message: 'Ok'
-      });
-    }
-    catch(err){
-      console.log(err);
-      res.json({
-        status: 500,
-        message: err
-      });
+  app.use(async (ctx, next) => {
+    try {
+      await next();
+    } catch (err) {
+      ctx.status = err.status || 500;
+      ctx.body = err.message;
+      ctx.app.emit('error', err, ctx);
     }
   });
 
+  router.post('/test', async ctx => {
+    let userName = `@${ctx.request.body.textarea}`;
+    console.log(ctx.request.body);
 
+    let rslt = await kickChatMember(userName);
+
+    ctx.status = 200;
+    ctx.body = rslt;
+  });
+
+  app.use(router.routes());
 
 };

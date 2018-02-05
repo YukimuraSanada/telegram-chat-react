@@ -4,12 +4,15 @@ const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(cfg.token, {polling: true});
 global.botx = bot;
 const MongoClient = require('mongodb').MongoClient;
-const express = require('express');
-const app = express();
+
+const Koa = require('koa');
+const app = new Koa();
+const serve = require('koa-static');
+
 const { addUser, clearCollection } = require('./operations/dbrequests');
 const writexls = require('./operations/xls');
 
-app.use(express.static('views/public'));
+app.use(serve('views/public'));
 
 let startServer = async () => {
 
@@ -29,7 +32,7 @@ let startServer = async () => {
 
     // console.log(await clearCollection());
 
-    writexls();
+    // writexls();
 
     bot.on('message', async msg => {
       try{
