@@ -1,3 +1,11 @@
+/**
+* @async
+* Kick user from chat
+* @function
+* @param {string} userName - telegram username.
+* @return {Promise<string>} Promise returns message
+*/
+
 const { getUserId } = require('../dbrequests');
 
 module.exports = async (userName) => {
@@ -6,7 +14,7 @@ module.exports = async (userName) => {
   let userCart = await getUserId(userName);
   console.log(userCart);
   if (!userCart){
-    return msg='unknown username';
+    return msg='Unknown username/Not found in Database';
   }
   else {
     try{

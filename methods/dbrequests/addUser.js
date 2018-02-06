@@ -1,3 +1,11 @@
+/**
+* @async
+* Add user to database from telegram listener
+* @function
+* @param {object} msg - data from tbot listener. 
+* @return {Promise<boolean>} Promise returns {msg<string>}
+*/
+
 module.exports = async msg => {
 
   // TODO add more than one user from 'new_chat_members'
