@@ -1,4 +1,4 @@
-/**
+/** TODO add queue to kickChatMember
 * @async
 * Kick user from chat
 * @function
@@ -6,12 +6,13 @@
 * @return {Promise<string>} Promise returns message
 */
 
-const { getUserId } = require('../dbrequests');
+const { getUsersId } = require('../dbrequests');
 
-module.exports = async (userName) => {
+module.exports = async usersArr => {
 
   let msg;
-  let userCart = await getUserId(userName);
+  let userCartArrays = await getUsersId(usersArr);
+  let userCart = userCartArrays[0];
   console.log(userCart);
   if (!userCart){
     return msg='Unknown username/Not found in Database';

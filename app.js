@@ -9,8 +9,9 @@ const Koa = require('koa');
 const app = new Koa();
 const serve = require('koa-static');
 
-const { addUser, clearCollection } = require('./operations/dbrequests');
-const writexls = require('./operations/xls');
+const { addUser, clearCollection } = require('./methods/dbrequests');
+const writexls = require('./methods/xls');
+const PORT = process.env.PORT || 80;
 
 app.use(serve('views/public'));
 
@@ -21,12 +22,12 @@ let startServer = async () => {
     console.log('Successful connect to db');
     global.collect = client.db('main').collection('users');
 
-    app.listen(80, () => {
-      console.log('listening on *:80');
+    app.listen(PORT, () => {
+      console.log(`listening on ${PORT}`);
     });
     require('./routes')(app);
 
-    // // see collection (for dev)
+    // see collection (for dev)
     // let fullCollection = await global.collect.find().toArray();
     // console.log(fullCollection);
 

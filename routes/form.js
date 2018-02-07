@@ -1,10 +1,10 @@
-// TODO error handling here!
+// TODO add parse more then one user
 
 var bodyParser = require('koa-bodyparser');
 var Router = require('koa-router');
 var router = new Router();
 
-const { kickChatMember } = require('../operations/botrequests');
+const { kickChatMember } = require('../methods/botrequests');
 
 module.exports = app => {
 
@@ -22,9 +22,10 @@ module.exports = app => {
 
   router.post('/test', async ctx => {
     let userName = `@${ctx.request.body.textarea}`;
+    let usersArr = [userName];
     console.log(ctx.request.body);
 
-    let rslt = await kickChatMember(userName);
+    let rslt = await kickChatMember(usersArr);
 
     ctx.status = 200;
     ctx.body = rslt;
