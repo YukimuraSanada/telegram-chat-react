@@ -1,4 +1,4 @@
-/**
+/** TODO exclude username from query and add it from array
 * @async
 * Get userId from database
 * @function
