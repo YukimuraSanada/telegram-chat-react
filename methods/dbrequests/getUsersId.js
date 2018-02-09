@@ -2,7 +2,7 @@
 * @async
 * Get userId from database
 * @function
-* @param {string} userName
+* @param {array} array of usernames
 * @return {Promise<array>} Promise returns array contains users object
 */
 

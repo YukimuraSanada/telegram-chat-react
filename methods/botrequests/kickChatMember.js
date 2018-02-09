@@ -1,4 +1,4 @@
-/** TODO add timer(queue) to kickChatMember (no more 20-30 request in 1 sec), add redis to save this responses for further processing.
+/** TODO add timer(queue) to kickChatMember (no more 20-30 request in 1 sec), add redis(?) to save this responses for further processing.
 * @async
 * Kick user from chat
 * @function
@@ -8,23 +8,32 @@
 
 const { getUsersId } = require('../dbrequests');
 
-module.exports = async usersArr => {
+module.exports = async userCart => {
 
-  let msg;
-  let userCartArrays = await getUsersId(usersArr);
-  let userCart = userCartArrays[0];
-  console.log(userCart);
+
+//TODO replace check of user for presence in the database to the middleware
   if (!userCart){
-    return msg=`Unknown username/Not found in Database - ${userCart.username}`;
+    return {
+      user : userCart.id,
+      message : 'Unknown username/Not found in Database',
+      isKicked : 'no'
+    };
   }
   else {
     try{
-      let data = await global.botx.kickChatMember('-1001235195076',userCart.id);
-      console.log(data);
-      return msg=`Successful kicked - ${userCart.username}`;
+      await global.botx.kickChatMember('-1001235195076',userCart.id);
+      return {
+        user : userCart.id,
+        message : 'Successful kicked',
+        isKicked : 'yes'
+      };
     }
     catch(err){
-      return msg=`User kick error - ${userCart.username}`;
+      return {
+        user : userCart.id,
+        message : 'User kick error',
+        isKicked : 'no'
+      };
     }
   }
 
