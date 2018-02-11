@@ -2,8 +2,8 @@
 * @async
 * Add user to database from telegram listener
 * @function
-* @param {object} msg - data from tbot listener. 
-* @return {Promise<boolean>} Promise returns {msg<string>}
+* @param {object} msg - data from tbot listener.
+* @return {Promise<object>} 
 */
 
 module.exports = async msg => {
@@ -24,8 +24,9 @@ module.exports = async msg => {
     {upsert:true}
   );
 
-  return data.result.ok;
+  return {
+    status : data.result.ok,
+    user : fullName
+  };
 
-
-  console.log(`new message : ${fullName} ${id} ${userName} : ${msg.text}`);
 };

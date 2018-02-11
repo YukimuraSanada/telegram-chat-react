@@ -38,7 +38,7 @@ let startServer = async () => {
     bot.on('message', async msg => {
       try{
         let res = await addUser(msg);
-        console.log(res ? 'Successful Update' : 'Updating error');
+        console.log(res.status ? `Add new user ${res.user}` : 'Updating error');
       } catch(err){
         console.log(err);
       }
