@@ -14,7 +14,6 @@ const writexls = require('./methods/xls');
 const PORT = process.env.PORT || 80;
 
 app.use(serve('views/public'));
-
 let startServer = async () => {
 
   try{
@@ -53,3 +52,5 @@ let startServer = async () => {
 
 
 startServer();
+// mongoimport  -d main -c users --file databaseusers1202.json
+// mongoexport -h ds229008.mlab.com:29008 -d users -c users -u login -p pass -o databaseusers1202.json
