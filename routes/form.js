@@ -52,7 +52,19 @@ module.exports = app => {
     ctx.kickedUsersArr = [];
     ctx.dontKickedUsersArr = [];
 
-    for (i=0;i<chunksArr.length;i++){
+
+    // ADOVYJ KOSTYL'!!!!!!!!!!!
+    let sleep = (time, callback) => {
+      let stop = new Date().getTime();
+      while(new Date().getTime() < stop + time) {
+        ;
+      }
+      callback();
+    };
+
+
+    let i = 0;
+    while (i<chunksArr.length){
       //iterates chunks in chunksArr
       for (j=0;j<chunksArr[i].length;j++){
         //iterates usercart objects in chunks
@@ -65,13 +77,15 @@ module.exports = app => {
           ctx.dontKickedUsersArr.push(chunksArr[i][j].username);
         }
       }
-
       //delay 1 sec here
+      sleep(1000, function() {
+        i++;
+      });
+
     }
     console.log(`Kicked Users: ${ctx.kickedUsersArr}`);
     console.log(`Dont kicked users : ${ctx.dontKickedUsersArr}`);
     console.log(`Users miss in database : ${ctx.missingDbUsers}`);
-    // let rslt = await kickChatMember(userCart);
     ctx.status = 200;
     // ctx.body = rslt;
   });

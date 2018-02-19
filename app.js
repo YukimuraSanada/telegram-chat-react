@@ -11,7 +11,7 @@ const serve = require('koa-static');
 
 const { addUser, clearCollection } = require('./methods/dbrequests');
 const writexls = require('./methods/xls');
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 80;
 
 app.use(serve('views/public'));
 let startServer = async () => {
