@@ -10,12 +10,11 @@ const app = new Koa();
 const serve = require('koa-static');
 
 const { addUser, clearCollection } = require('./methods/dbrequests');
-const writexls = require('./methods/xls');
 const PORT = process.env.PORT || 80;
 
 app.use(serve('views/public'));
-let startServer = async () => {
 
+let startServer = async () => {
   try{
     let client = await MongoClient.connect(cfg.mongoUri);
     console.log('Successful connect to db');
@@ -25,14 +24,6 @@ let startServer = async () => {
       console.log(`listening on ${PORT}`);
     });
     require('./routes')(app);
-
-    // see collection (for dev)
-    // let fullCollection = await global.collect.find().toArray();
-    // console.log(fullCollection);
-
-    // console.log(await clearCollection());
-
-    // writexls();
 
     bot.on('message', async msg => {
       try{
@@ -46,11 +37,6 @@ let startServer = async () => {
   catch(err){
     console.log(err);
   }
-
 };
 
-
-
 startServer();
-// mongoimport  -d main -c users --file databaseusers1202.json
-// mongoexport -h ds229008.mlab.com:29008 -d users -c users -u login -p pass -o databaseusers1202.json

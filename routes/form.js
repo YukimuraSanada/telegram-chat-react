@@ -11,6 +11,7 @@ var router = new Router();
 const { getUsersId } = require('../methods/dbrequests');
 const { kickChatMember } = require('../methods/botrequests');
 const _ = require('lodash');
+const cfg = require('../config');
 
 module.exports = app => {
 
@@ -34,60 +35,58 @@ module.exports = app => {
   router.use('/test', async (ctx,next) => {
     console.log(`INPUT ARR : ${ctx.inputUsersArr}`);
     ctx.userCartArrays = await getUsersId(ctx.inputUsersArr);
-    // console.log(ctx.userCartArrays);
     ctx.databaseUsers = ctx.userCartArrays.map( item => {
       return item.username;
     });
-    ctx.missingDbUsers = _.difference(ctx.inputUsersArr, ctx.databaseUsers);  //write this to xls with label "not found in db"
-    // console.log(`MISSING DB USERS : ${missingDbUsers}`);
+    ctx.missingDbUsers = _.difference(ctx.inputUsersArr, ctx.databaseUsers);
     await next();
   });
 
-  router.post('/test', async ctx => {
-    // console.log(`ARRAY USERS FROM DATABASE: ${ctx.databaseUsers}`);
-    //TODO add 1 sec delay across the chunks sending THIS IS SHIT
-    let chunksArr = _.chunk(ctx.userCartArrays, 1);  //inculde arrays of usercart objects
-
-    // console.log(chunksArr);
+  router.post('/test', async (ctx, next) => {
+    let chunksArr = _.chunk(ctx.userCartArrays, 20);  //inculde arrays of usercart objects
     ctx.kickedUsersArr = [];
     ctx.dontKickedUsersArr = [];
 
-
-    // ADOVYJ KOSTYL'!!!!!!!!!!!
-    let sleep = (time, callback) => {
-      let stop = new Date().getTime();
-      while(new Date().getTime() < stop + time) {
-        ;
+    function* gen() {
+      let i =0;
+      while (i<chunksArr.length){
+        //iterates chunks in chunksArr
+        yield (async function(){
+          for (j=0;j<chunksArr[i].length;j++){
+            //iterates usercart objects in chunks
+            let rslt =  await kickChatMember(chunksArr[i][j]);
+            if (rslt.isKicked){
+              ctx.kickedUsersArr.push(chunksArr[i][j].username);
+            }
+            else {
+              ctx.dontKickedUsersArr.push(chunksArr[i][j].username);
+            }
+          }
+          i++;
+        })();
       }
-      callback();
-    };
-
-
-    let i = 0;
-    while (i<chunksArr.length){
-      //iterates chunks in chunksArr
-      for (j=0;j<chunksArr[i].length;j++){
-        //iterates usercart objects in chunks
-        // console.log(chunksArr[i][j]);
-        let rslt =  await kickChatMember(chunksArr[i][j]);
-        if (rslt.isKicked){
-          ctx.kickedUsersArr.push(chunksArr[i][j].username);
+      yield (async function(){
+        clearInterval(tmer);
+        console.log(`Kicked Users: ${ctx.kickedUsersArr}`);
+        console.log(`Dont kicked users : ${ctx.dontKickedUsersArr}`);
+        console.log(`Users miss in database : ${ctx.missingDbUsers}`);
+        try{
+          await global.botx.sendMessage(cfg.tid, `Kicked Users: ${ctx.kickedUsersArr}`);
+          await global.botx.sendMessage(cfg.tid, `Dont kicked users : ${ctx.dontKickedUsersArr}`);
+          await global.botx.sendMessage(cfg.tid, `Users miss in database : ${ctx.missingDbUsers}`);
         }
-        else {
-          ctx.dontKickedUsersArr.push(chunksArr[i][j].username);
+        catch(err){
+          console.log(err);
         }
-      }
-      //delay 1 sec here
-      sleep(1000, function() {
-        i++;
-      });
-
+      })();
     }
-    console.log(`Kicked Users: ${ctx.kickedUsersArr}`);
-    console.log(`Dont kicked users : ${ctx.dontKickedUsersArr}`);
-    console.log(`Users miss in database : ${ctx.missingDbUsers}`);
+
+    let iter = gen();
+    let tmer = setInterval(function () {
+      let rs = iter.next();
+    }, 1000);
+
     ctx.status = 200;
-    // ctx.body = rslt;
   });
 
   app.use(router.routes());
