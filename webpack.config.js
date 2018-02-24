@@ -1,37 +1,37 @@
 const path = require('path');
-const MinifyPlugin = require("babel-minify-webpack-plugin");
 
 module.exports = {
-  entry: './views/src/js/client.js',
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'views/public/js')
+  entry: ['babel-polyfill', "./views/src/Client.jsx"],
+  output:{
+    path: path.resolve(__dirname, 'views/public'),
+    publicPath: '/',
+    filename: "bundle.js"
   },
-  plugins: [
-    new MinifyPlugin(true, { test: /\.js$/ })
-  ],
-  module: {
-    rules: [
+  module:{
+    rules:[
       {
-        test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
+        test: /\.jsx?$/,
+        exclude: /(node_modules)/,
+        loader: "babel-loader",
+        options:{
+          presets:["env", "react", "es2015", "stage-0"]
         }
       },
       {
-        test: /\.scss$/,
+        test: /\.css$|\.scss$/,
         use: [{
-          loader: "style-loader" // creates style nodes from JS strings
+          loader: "style-loader"
         }, {
-          loader: "css-loader" // translates CSS into CommonJS
+          loader: "css-loader"
         }, {
-          loader: "sass-loader" // compiles Sass to CSS
+          loader: "sass-loader"
         }]
       }
     ]
+  },
+  devServer: {
+    contentBase: path.join(__dirname, "views/public"),
+    compress: true,
+    port: 9000
   }
-};
+}

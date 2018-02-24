@@ -1,6 +1,6 @@
 module.exports = {
   port : 80,
-  token : 'tbotToken',
+  token : '514330319:AAGxcqHgbwWY4APCZCdaDhCvF5ru7mItVZg',
   mongoUri : 'mongodb://127.0.0.1:27017',
   tid : 666
   // Conf for mongoDB Atlas

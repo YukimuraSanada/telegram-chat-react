@@ -10,7 +10,7 @@ const app = new Koa();
 const serve = require('koa-static');
 
 const { addUser, clearCollection } = require('./methods/dbrequests');
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3030;
 
 app.use(serve('views/public'));
 
