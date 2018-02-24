@@ -11,16 +11,21 @@ import axios from 'axios';
 class KickForm extends Component {
 
   state = {
-    textarea : '',
+    textareaVal : '',
+    selectVal : '',
     res : ''
   }
 
-  handleClick = async (e) => {
+  onUsersChange = async (e) => {
     await this.setState({
-      textarea : e.target.value
+      textareaVal : e.target.value
     });
-    console.log(this.state.textarea);
   };
+  onChatChange = async (e) => {
+    await this.setState({
+      selectVal : e.target.value
+    });
+  }
 
   submitForm = async (e) => {
     e.preventDefault();
@@ -29,7 +34,7 @@ class KickForm extends Component {
         method: 'POST',
         url: '/test',
         data: {
-          'textarea': this.state.textarea
+          'textarea': this.state.textareaVal
         }
       });
       await this.setState({
@@ -40,7 +45,13 @@ class KickForm extends Component {
       await this.setState({
         res : 'An error occurred!'
       });
-      console.log(error);
+      console.log(err);
+    }
+    finally{
+      await this.setState({
+        textareaVal : '',
+        selectVal : ''
+      });
     }
   }
 
@@ -48,20 +59,15 @@ class KickForm extends Component {
     return (
       <Form onSubmit={this.submitForm}>
         <h1>Kick users</h1>
-        <Textarea label="Users" type="text" rows='6' floatingLabel={true} value={this.state.textarea} onChange={this.handleClick} />
-        <Select name="input" label="Select Chat" >
+        <Textarea label="Users" type="text" rows='6' floatingLabel={true} value={this.state.textareaVal} onChange={this.onUsersChange} />
+        <Select name="input" label="Select Chat" value={this.state.selectVal} onChange={this.onChatChange}>
           <Option value="option1" label="Chat 1" />
           <Option value="option2" label="Chat 2" />
           <Option value="option3" label="Chat 3" />
           <Option value="option4" label="Chat 4" />
         </Select>
         <Button color="primary">button</Button>
-        {
-          this.state.res &&
-          <Panel>
-            { this.state.res }
-          </Panel>
-        }
+        { this.state.res &&  <Panel>{ this.state.res }</Panel> }
       </Form>
     );
   }

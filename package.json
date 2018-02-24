@@ -38,7 +38,7 @@
   "scripts": {
     "build": "webpack -p",
     "dev": "webpack-dev-server --hot --open",
-    "start": "node app"
+    "start": "npm run build && node app"
   },
   "repository": {
     "type": "git",
