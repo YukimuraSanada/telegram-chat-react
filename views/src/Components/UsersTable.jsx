@@ -18,7 +18,7 @@ let data = [];
 
 export default class UsersTable extends Component {
   state = {
-    selectedRowKeys: [], // Check here to configure the default column
+    selectedRowKeys: [],
     loading: false,
   };
 
@@ -62,7 +62,7 @@ export default class UsersTable extends Component {
             Reload
           </Button>
         </div>
-        <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+        <Table rowSelection={rowSelection} loading={this.state.loading} columns={columns} dataSource={data} />
       </div>
     );
   }
