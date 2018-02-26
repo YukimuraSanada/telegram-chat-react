@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
 
-import Textarea from 'muicss/lib/react/textarea';
-import Form from 'muicss/lib/react/form';
-import Button from 'muicss/lib/react/button';
-import Option from 'muicss/lib/react/option';
-import Select from 'muicss/lib/react/select';
-import Panel from 'muicss/lib/react/panel';
 import axios from 'axios';
 
-class KickForm extends Component {
+import { Form, Input, Button, Select } from 'antd';
+
+const Option = Select.Option;
+const { TextArea } = Input;
+
+
+export default class KickForm extends Component {
 
   state = {
     textareaVal : '',
-    selectVal : '',
+    selectVal : 'Choose the chat',
     res : ''
   }
 
   onUsersChange = async (e) => {
     await this.setState({
-      textareaVal : e.target.value
+      textareaVal :  e.target.value
     });
   };
-  onChatChange = async (e) => {
+  onChatChange = async (value) => {
     await this.setState({
-      selectVal : e.target.value
+      selectVal : value
     });
   }
 
@@ -55,23 +55,31 @@ class KickForm extends Component {
     }
   }
 
+
   render() {
     return (
       <Form onSubmit={this.submitForm}>
         <h1>Kick users</h1>
-        <Textarea label="Users" type="text" rows='6' floatingLabel={true} value={this.state.textareaVal} onChange={this.onUsersChange} />
-        <Select name="input" label="Select Chat" value={this.state.selectVal} onChange={this.onChatChange}>
-          <Option value="option1" label="Chat 1" />
-          <Option value="option2" label="Chat 2" />
-          <Option value="option3" label="Chat 3" />
-          <Option value="option4" label="Chat 4" />
+        <TextArea
+          style={{marginBottom : 20, overflowX : 'hidden'}}
+          placeholder="Autosize height with minimum and maximum number of lines"
+          autosize={{ minRows: 4, maxRows: 10 }}
+          value={this.state.textareaVal}
+          onChange={this.onUsersChange}>
+        </TextArea>
+        <Select
+          style={{marginBottom : 20}}
+          value={this.state.selectVal}
+          onChange={this.onChatChange}>
+          <Option value="option1">Chat 1</Option>
+          <Option value="option2">Chat 2</Option>
+          <Option value="option3">Chat 3</Option>
+          <Option value="option4">Chat 4</Option>
         </Select>
-        <Button color="primary">button</Button>
-        { this.state.res &&  <Panel>{ this.state.res }</Panel> }
+        <br/>
+        <Button size="large" htmlType="submit" type="primary">button</Button>
       </Form>
     );
   }
 
 }
-
-export default KickForm;
