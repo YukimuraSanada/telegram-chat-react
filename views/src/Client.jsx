@@ -9,8 +9,8 @@ import MainSection from './Components/MainSection.jsx';
 class App extends Component {
 
   state = {
-    collapsed: false,
-    selectedItem : ''
+    collapsed: true,
+    selectedItem : 1
   }
 
   handleToggle  = () => {
