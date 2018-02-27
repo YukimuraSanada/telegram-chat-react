@@ -1,5 +1,6 @@
-var Router = require('koa-router');
-var router = new Router();
+const Router = require('koa-router');
+const router = new Router();
+const cors = require('@koa/cors');
 
 module.exports = app => {
 
@@ -12,6 +13,8 @@ module.exports = app => {
       ctx.app.emit('error', err, ctx);
     }
   });
+
+  app.use(cors());
 
   router.get('/users', async (ctx,next) => {
     let fullCollection = await global.collect.find().toArray();

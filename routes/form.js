@@ -5,9 +5,9 @@
 *   missingDbUsers - users which not include in database
 * }
 */
-var bodyParser = require('koa-bodyparser');
-var Router = require('koa-router');
-var router = new Router();
+const bodyParser = require('koa-bodyparser');
+const Router = require('koa-router');
+const router = new Router();
 const { getUsersId } = require('../methods/dbrequests');
 const { kickChatMember } = require('../methods/botrequests');
 const _ = require('lodash');

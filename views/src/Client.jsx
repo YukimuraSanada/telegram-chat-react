@@ -10,7 +10,7 @@ class App extends Component {
 
   state = {
     collapsed: true,
-    selectedItem : 1
+    selectedItem : 2
   }
 
   handleToggle  = () => {
