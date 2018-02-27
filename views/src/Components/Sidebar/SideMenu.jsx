@@ -5,7 +5,7 @@ const { Item } = Menu;
 
 const SideMenu = (props) => {
   return (
-    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} onSelect={ (item) => props.onHandleItem(item.key)}>
+    <Menu theme="dark" mode="inline" defaultSelectedKeys={[props.selectedItem.toString()]} onSelect={ (item) => props.onHandleItem(item.key)}>
       <Item key="1" >
         <Icon type="user-delete" />
         <span>Kick users</span>

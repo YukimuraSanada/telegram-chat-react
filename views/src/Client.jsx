@@ -28,7 +28,7 @@ class App extends Component {
   render(){
     return (
       <Layout  style={{ minHeight: '100vh' }}>
-        <SideBar isCollapsed={this.state.collapsed} onHandleSelect={this.handleSelect}/>
+        <SideBar isCollapsed={this.state.collapsed} onHandleSelect={this.handleSelect} selectedItem={this.state.selectedItem}/>
         <MainSection onHandleToggle={this.handleToggle} isCollapsed={this.state.collapsed} selectedItem={this.state.selectedItem}></MainSection>
       </Layout>
     );

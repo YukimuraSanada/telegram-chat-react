@@ -4,7 +4,7 @@ import { Layout } from 'antd';
 
 import CustomHeader from './CustomHeader.jsx';
 import KickForm from './KickForm.jsx';
-import UsersTable from './UsersTable.jsx';
+import UsersTable from './UsersTable/UsersTable.jsx';
 
 
 const { Content } = Layout;

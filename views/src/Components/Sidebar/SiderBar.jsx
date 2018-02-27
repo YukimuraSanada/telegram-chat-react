@@ -12,7 +12,7 @@ const SideBar = (props) => {
       collapsible
       collapsed={props.isCollapsed}>
       <div className="logo" />
-      <SideMenu onHandleItem={props.onHandleSelect}/>
+      <SideMenu selectedItem={props.selectedItem} onHandleItem={props.onHandleSelect}/>
     </Sider>
   );
 };
