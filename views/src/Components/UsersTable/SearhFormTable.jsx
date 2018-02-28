@@ -5,7 +5,7 @@ const Option = Select.Option;
 
 const SearchFormtable = (props) => {
 
-  const { onReload, loading, findBy, onFindChange, inputValue, onInputChange, onFind, searchFromDisabled } = props;
+  const { onReload, loading, findBy, onFindChange, inputValue, onInputChange, onFind, searchFromDisabled, selectedRowKeys } = props;
 
   return (
     <Row>
@@ -16,6 +16,9 @@ const SearchFormtable = (props) => {
           loading={loading}>
           Reload
         </Button>
+        <span style={{ marginLeft: 8 }}>
+          {props.isSelected ? `Selected ${props.selectedRowKeys.length} items` : ''}
+        </span>
       </Col>
       <Col span={3}>
         <Select

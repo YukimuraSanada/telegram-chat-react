@@ -17,8 +17,6 @@ const columns = [{
 
 let data = [];
 
-
-
 export default class UsersTable extends PureComponent {
   state = {
     selectedRowKeys: [],
@@ -126,10 +124,12 @@ export default class UsersTable extends PureComponent {
       selectedRowKeys,
       onChange: this.onSelectChange,
     };
+    const isSelected = selectedRowKeys.length > 0;
     return (
       <div>
         <div style={{ marginBottom: 16 }}>
           <SearchFormtable
+            isSelected={isSelected}
             searchFromDisabled = {isSearchFromDisabled}
             selectedRowKeys = {selectedRowKeys}
             loading = {isLoading}
