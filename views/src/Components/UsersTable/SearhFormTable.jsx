@@ -5,7 +5,7 @@ const Option = Select.Option;
 
 const SearchFormtable = (props) => {
 
-  const { onReload, loading, findBy, onFindChange, inputValue, onInputChange, onFind } = props;
+  const { onReload, loading, findBy, onFindChange, inputValue, onInputChange, onFind, searchFromDisabled } = props;
 
   return (
     <Row>
@@ -19,7 +19,7 @@ const SearchFormtable = (props) => {
       </Col>
       <Col span={3}>
         <Select
-          style={{ width: 150 }}
+          style={{ width: '80%' }}
           value={findBy}
           onChange={onFindChange}>
           <Option value="username">Username</Option>
@@ -27,10 +27,10 @@ const SearchFormtable = (props) => {
         </Select>
       </Col>
       <Col span={7}>
-        <Input value={inputValue} onChange={onInputChange}></Input>
+        <Input value={inputValue} onChange={onInputChange} disabled={searchFromDisabled}></Input>
       </Col>
       <Col span={1} style={{marginLeft:20}}>
-        <Button type="primary" onClick={onFind}><Icon type="search" /></Button>
+        <Button type="primary" disabled={searchFromDisabled} onClick={onFind}><Icon type="search" /></Button>
       </Col>
     </Row>
   );

@@ -7,11 +7,12 @@ const { Header } = Layout;
 const CustomHeader = (props) => {
   return (
     <Header style={{ background: '#fff', padding: 0 }}>
-      <Icon
-        style={{paddingLeft : 30}}
-        type={props.collapsed ? 'menu-unfold' : 'menu-fold'}
-        onClick={props.onToggle}
-      />
+      <div style={{paddingLeft : 30}}>
+        <Icon
+          type={props.collapsed ? 'menu-unfold' : 'menu-fold'}
+          onClick={props.onToggle}
+        />
+      </div>
     </Header>
   );
 };

@@ -17,21 +17,19 @@ const columns = [{
 
 let data = [];
 
+
+
 export default class UsersTable extends PureComponent {
   state = {
     selectedRowKeys: [],
-    loading: false,
+    isLoading: true,
     inputValue : '',
     filteredData : [],
-    findBy : 'Field for find'
+    findBy : 'Choose field',
+    isSearchFromDisabled : true
   };
 
-  handleReload = async () => {
-    await this.setState({
-      loading: true,
-      inputValue : '',
-    });
-
+  getData = async () => {
     try{
       let rslt = await axios({
         method: 'get',
@@ -41,17 +39,31 @@ export default class UsersTable extends PureComponent {
       data = rslt.data;
       await this.setState({
         filteredData : rslt.data,
-        loading: false,
+        isLoading: false,
       });
     }
     catch(err){
       console.log(err);
     }
+  };
 
+  componentDidMount(){
+    this.getData();
   }
+
+  handleReload = async () => {
+    await this.setState({
+      isLoading: true,
+      inputValue : '',
+    });
+    this.getData();
+  }
+
   onSelectChange = (selectedRowKeys) => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
-    this.setState({ selectedRowKeys });
+    this.setState({
+      selectedRowKeys
+    });
   }
 
   handleInputChange = (e) => {
@@ -59,9 +71,11 @@ export default class UsersTable extends PureComponent {
       inputValue : e.target.value
     });
   }
+
   handleFindChange = (value) => {
     this.setState({
-      findBy : value
+      findBy : value,
+      isSearchFromDisabled : false
     });
   }
 
@@ -107,7 +121,7 @@ export default class UsersTable extends PureComponent {
   }
 
   render() {
-    const { loading, selectedRowKeys, inputValue, findBy } = this.state;
+    const { isLoading, selectedRowKeys, inputValue, findBy, isSearchFromDisabled } = this.state;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -116,16 +130,18 @@ export default class UsersTable extends PureComponent {
       <div>
         <div style={{ marginBottom: 16 }}>
           <SearchFormtable
+            searchFromDisabled = {isSearchFromDisabled}
             selectedRowKeys = {selectedRowKeys}
-            loading = {loading}
+            loading = {isLoading}
             inputValue={inputValue}
             findBy={findBy}
             onFind={this.findItems}
             onReload={this.handleReload}
             onInputChange={this.handleInputChange}
-            onFindChange={this.handleFindChange}/>
+            onFindChange={this.handleFindChange}
+          />
         </div>
-        <Table rowSelection={rowSelection}  rowKey={data => data._id} loading={this.state.loading} columns={columns} dataSource={this.state.filteredData} />
+        <Table rowSelection={rowSelection}  rowKey={data => data._id} loading={this.state.isLoading} columns={columns} dataSource={this.state.filteredData} />
       </div>
     );
   }
