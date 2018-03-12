@@ -78,8 +78,8 @@ export default class UsersTable extends PureComponent {
   }
 
   findItems =  () => {
-    const reg = new RegExp( this.state.inputValue, 'gi');
-    const { findBy } = this.state;
+    const { findBy, inputValue } = this.state;
+    const reg = new RegExp( inputValue, 'gi');
     let newData = data.map( item => {
       const match = item[findBy].match(reg);
       if (!match) {
