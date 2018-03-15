@@ -34,7 +34,8 @@ export default class KickForm extends Component {
         method: 'POST',
         url: '/test',
         data: {
-          'textarea': this.state.textareaVal
+          'textarea': this.state.textareaVal,
+          'chatId' : this.state.selectVal
         }
       });
       await this.setState({
@@ -71,10 +72,10 @@ export default class KickForm extends Component {
           style={{marginBottom : 20}}
           value={this.state.selectVal}
           onChange={this.onChatChange}>
-          <Option value="option1">Chat 1</Option>
-          <Option value="option2">Chat 2</Option>
-          <Option value="option3">Chat 3</Option>
-          <Option value="option4">Chat 4</Option>
+          <Option value="-1001141677753">TRENIROVKI</Option>
+          <Option value="-1001122317035">DIETOLOG</Option>
+          <Option value="-1001158977542">PSIHOLOG</Option>
+          <Option value="-1001168764058">PRETENZII</Option>
         </Select>
         <br/>
         <Button size="large" htmlType="submit" type="primary">button</Button>

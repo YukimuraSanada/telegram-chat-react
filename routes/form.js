@@ -28,6 +28,7 @@ module.exports = app => {
 
   router.use('/test', async (ctx,next) => {
     let usersString = ctx.request.body.textarea;
+    ctx.chatToKick = ctx.request.body.chatId;
     ctx.inputUsersArr = usersString.split('\n');
     await next();
   });
@@ -54,7 +55,7 @@ module.exports = app => {
         yield (async function(){
           for (j=0;j<chunksArr[i].length;j++){
             //iterates usercart objects in chunks
-            let rslt =  await kickChatMember(chunksArr[i][j]);
+            let rslt =  await kickChatMember(chunksArr[i][j], ctx.chatToKick);
             if (rslt.isKicked){
               ctx.kickedUsersArr.push(chunksArr[i][j].username);
             }

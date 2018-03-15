@@ -8,10 +8,10 @@
 
 const { getUsersId } = require('../dbrequests');
 
-module.exports = async userCart => {
+module.exports = async (userCart, chatId) => {
 
   try{
-    let rslt = await global.botx.kickChatMember('-1001235195076',userCart.id);
+    let rslt = await global.botx.kickChatMember(chatId,userCart.id);
     return {
       user : userCart.username,
       message : 'Successful kicked',
