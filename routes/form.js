@@ -35,15 +35,22 @@ module.exports = app => {
 
   router.use('/test', async (ctx,next) => {
     console.log(`INPUT ARR : ${ctx.inputUsersArr}`);
-    ctx.userCartArrays = await getUsersId(ctx.inputUsersArr);
-    ctx.databaseUsers = ctx.userCartArrays.map( item => {
-      return item.username;
-    });
-    ctx.missingDbUsers = _.difference(ctx.inputUsersArr, ctx.databaseUsers);
+
+    try{
+      ctx.userCartArrays = await getUsersId(ctx.inputUsersArr);
+      ctx.databaseUsers = ctx.userCartArrays.map( item => {
+        return item.username;
+      });
+      ctx.missingDbUsers = _.difference(ctx.inputUsersArr, ctx.databaseUsers);
+    }
+    catch(err){
+      console.log('error on line 47 form.js');
+    }
     await next();
   });
 
   router.post('/test', async (ctx, next) => {
+
     let chunksArr = _.chunk(ctx.userCartArrays, 20);  //inculde arrays of usercart objects
     ctx.kickedUsersArr = [];
     ctx.dontKickedUsersArr = [];
@@ -77,7 +84,7 @@ module.exports = app => {
           await global.botx.sendMessage(cfg.tid, `Users miss in database : ${ctx.missingDbUsers}`);
         }
         catch(err){
-          console.log(err);
+          console.log('error on line 87 form.js');
         }
       })();
     }
