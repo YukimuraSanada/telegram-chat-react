@@ -32,7 +32,7 @@ export default class KickForm extends Component {
     try{
       let res = await axios({
         method: 'POST',
-        url: '/test',
+        url: 'http://localhost:3030/test',
         data: {
           'textarea': this.state.textareaVal,
           'chatId' : this.state.selectVal

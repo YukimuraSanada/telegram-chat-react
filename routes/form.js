@@ -12,6 +12,7 @@ const { getUsersId } = require('../methods/dbrequests');
 const { kickChatMember } = require('../methods/botrequests');
 const _ = require('lodash');
 const cfg = require('../config');
+const cors = require('@koa/cors');
 
 module.exports = app => {
 
@@ -25,6 +26,8 @@ module.exports = app => {
       ctx.app.emit('error', err, ctx);
     }
   });
+
+  app.use(cors());
 
   router.use('/test', async (ctx,next) => {
     let usersString = ctx.request.body.textarea;
