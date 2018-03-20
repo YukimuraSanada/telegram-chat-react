@@ -3,6 +3,6 @@ import { pageReducer } from './Components/Sidebar/SidebarReducer';
 import { kickFormReducer } from './Components/KickForm/KickFormReducers';
 
 export default combineReducers({
-  pageReducer,
-  kickFormReducer
+  sidebarState : pageReducer,
+  kickFormState : kickFormReducer
 });

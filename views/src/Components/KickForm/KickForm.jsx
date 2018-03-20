@@ -7,95 +7,70 @@ const Option = Select.Option;
 const { TextArea } = Input;
 
 import { connect } from 'react-redux';
-import { userFieldChange, chatFieldChange } from './KickFormActions';
+import { userFieldChange, chatFieldChange, submitForm } from './KickFormActions';
 
-class KickForm extends Component {
+const KickForm = ({ onUsersChange, onSelectChange, kickFormState, onSubmitForm }) => {
 
-  state = {
-    textareaVal : '',
-    selectVal : 'Choose the chat',
-    res : ''
-  }
-
-  handleUsersChange = (e) => {
-    this.props.onUsersChange(e.target.value);
+  const handleUsersChange = e => {
+    onUsersChange(e.target.value);
   };
 
-  handleChatChange = (value) => {
-    this.props.onSelectChange(value);
-  }
+  const handleChatChange = value => {
+    onSelectChange(value);
+  };
 
-  submitForm = async (e) => {
+  const handleSubmitForm = e => {
     e.preventDefault();
-    try{
-      let res = await axios({
-        method: 'POST',
-        url: '/test',
-        data: {
-          'textarea': this.state.textareaVal,
-          'chatId' : this.state.selectVal
-        }
-      });
-      await this.setState({
-        res : 'Form was successfully sent!'
-      });
-    }
-    catch(err){
-      await this.setState({
-        res : 'An error occurred!'
-      });
-      console.log(err);
-    }
-    finally{
-      await this.setState({
-        textareaVal : '',
-        selectVal : ''
-      });
-    }
-  }
+    const data = {
+      textareaVal : kickFormState.textarea,
+      selectVal : kickFormState.chatId
+    };
+    onSubmitForm(data);
+  };
+
+  const { textareaVal, selectVal } = kickFormState;
+  return (
+    <Form onSubmit={handleSubmitForm}>
+      <h1>Kick users</h1>
+      <TextArea
+        style={{marginBottom : 20, overflowX : 'hidden'}}
+        placeholder="Autosize height with minimum and maximum number of lines"
+        autosize={{ minRows: 4, maxRows: 10 }}
+        value={textareaVal}
+        onChange={handleUsersChange}>
+      </TextArea>
+      <Select
+        style={{marginBottom : 20}}
+        value={selectVal}
+        onChange={handleChatChange}>
+        <Option value="-1001141677753">TRENIROVKI</Option>
+        <Option value="-1001122317035">DIETOLOG</Option>
+        <Option value="-1001158977542">PSIHOLOG</Option>
+        <Option value="-1001168764058">PRETENZII</Option>
+      </Select>
+      <br/>
+      <Button size="large" htmlType="submit" type="primary">button</Button>
+    </Form>
+  );
+};
 
 
-  render() {
-    return (
-      <Form onSubmit={this.submitForm}>
-        <h1>Kick users</h1>
-        <TextArea
-          style={{marginBottom : 20, overflowX : 'hidden'}}
-          placeholder="Autosize height with minimum and maximum number of lines"
-          autosize={{ minRows: 4, maxRows: 10 }}
-          value={this.props.kickFormState.textareaVal}
-          onChange={this.handleUsersChange}>
-        </TextArea>
-        <Select
-          style={{marginBottom : 20}}
-          value={this.props.kickFormState.selectVal}
-          onChange={this.handleChatChange}>
-          <Option value="-1001141677753">TRENIROVKI</Option>
-          <Option value="-1001122317035">DIETOLOG</Option>
-          <Option value="-1001158977542">PSIHOLOG</Option>
-          <Option value="-1001168764058">PRETENZII</Option>
-        </Select>
-        <br/>
-        <Button size="large" htmlType="submit" type="primary">button</Button>
-      </Form>
-    );
-  }
-
-}
-
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    kickFormState : state.kickFormReducer
+    kickFormState : state.kickFormState
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    onUsersChange : (val) => {
+    onUsersChange : val => {
       dispatch(userFieldChange(val));
     },
-    onSelectChange : (val) => {
+    onSelectChange : val => {
       dispatch(chatFieldChange(val));
+    },
+    onSubmitForm : data => {
+      dispatch(submitForm(data));
     }
   };
 };
