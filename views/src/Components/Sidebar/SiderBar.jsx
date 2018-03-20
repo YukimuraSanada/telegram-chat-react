@@ -5,16 +5,24 @@ const { Sider } = Layout;
 
 import SideMenu from './SideMenu.jsx';
 
+import { connect } from 'react-redux';
+
 const SideBar = (props) => {
   return (
     <Sider
       trigger={null}
       collapsible
-      collapsed={props.isCollapsed}>
+      collapsed={props.sidebarStore.collapsed}>
       <div className="logo" />
-      <SideMenu selectedItem={props.selectedItem} onHandleItem={props.onHandleSelect}/>
+      <SideMenu />
     </Sider>
   );
 };
 
-export default SideBar;
+const mapStateToProps = (state) => {
+  return {
+    sidebarStore : state.pageReducer
+  };
+};
+
+export default connect(mapStateToProps)(SideBar);

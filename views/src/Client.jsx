@@ -6,31 +6,24 @@ import { Layout } from 'antd';
 import SideBar from './Components/Sidebar/SiderBar.jsx';
 import MainSection from './Components/MainSection.jsx';
 
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import rootReducer from './rootReducer';
+
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+
 class App extends Component {
-
-  state = {
-    collapsed: true,
-    selectedItem : 2
-  }
-
-  handleToggle  = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  }
-
-  handleSelect = (key) => {
-    this.setState({
-      selectedItem : key
-    });
-  };
 
   render(){
     return (
-      <Layout  style={{ minHeight: '100vh' }}>
-        <SideBar isCollapsed={this.state.collapsed} onHandleSelect={this.handleSelect} selectedItem={this.state.selectedItem}/>
-        <MainSection onHandleToggle={this.handleToggle} isCollapsed={this.state.collapsed} selectedItem={this.state.selectedItem}></MainSection>
-      </Layout>
+      <Provider store={store}>
+        <Layout  style={{ minHeight: '100vh' }}>
+          <SideBar/>
+          <MainSection></MainSection>
+        </Layout>
+      </Provider>
     );
   }
 }

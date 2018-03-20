@@ -3,9 +3,14 @@ import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
 const { Item } = Menu;
 
+import { connect } from 'react-redux';
+import { selectMenuitem } from './SidebarActions';
+
 const SideMenu = (props) => {
+
+  const { sidebarStore, onHandleItem } = props;
   return (
-    <Menu theme="dark" mode="inline" defaultSelectedKeys={[props.selectedItem.toString()]} onSelect={ (item) => props.onHandleItem(item.key)}>
+    <Menu theme="dark" mode="inline" defaultSelectedKeys={[sidebarStore.selectedItem.toString()]} onSelect={ (item) => onHandleItem(item.key)}>
       <Item key="1" >
         <Icon type="user-delete" />
         <span>Kick users</span>
@@ -16,6 +21,21 @@ const SideMenu = (props) => {
       </Item>
     </Menu>
   );
+  
 };
 
-export default SideMenu;
+const mapStateToProps = (state) => {
+  return {
+    sidebarStore : state.pageReducer
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onHandleItem : (val) => {
+      dispatch(selectMenuitem(val));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);
