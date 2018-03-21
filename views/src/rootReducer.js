@@ -5,6 +5,6 @@ import { userTableReducer   } from './Components/UsersTable/UserTableReducer';
 
 export default combineReducers({
   sidebarState : pageReducer,
-  kickFormReducer,
-  userTableReducer
+  kickFormState : kickFormReducer,
+  userTableState : userTableReducer
 });

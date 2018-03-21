@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import axios from 'axios';
-
 import { Form, Input, Button, Select } from 'antd';
 const Option = Select.Option;
 const { TextArea } = Input;

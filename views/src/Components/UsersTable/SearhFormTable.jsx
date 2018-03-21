@@ -4,25 +4,31 @@ import {  Button, Input, Row, Col, Icon, Select} from 'antd';
 const Option = Select.Option;
 
 import { connect } from 'react-redux';
-import { loadingData, changeFindSelect, changeFindInput, findItems, filterData } from './UserTableActions';
+import { loadingData, changeFindSelect, changeFindInput, filterData } from './UserTableActions';
 
-const SearchFormtable = (props) => {
+const SearchFormtable = ({isSelected, userTableStore, getData, changeFindInput, changeFindSelect, filterData}) => {
 
-  const { onReload, loading, findBy, onFindChange, inputValue, onInputChange, searchFromDisabled } = props;
+  const {
+    data,
+    findBy,
+    inputValue,
+    loading,
+    isSearchFromDisabled,
+    selectedRowKeys
+  } = userTableStore;
 
   const handleFindChange = (value) => {
-    props.changeFindSelect(value);
+    changeFindSelect(value);
   };
 
   const handleInputChange = (e) => {
-    props.changeFindInput(e.target.value);
+    changeFindInput(e.target.value);
   };
 
   const onFindy = () => {
 
-    const { findBy, inputValue } = props.userTableStore;
     const reg = new RegExp( inputValue, 'gi');
-    let newData = props.data.map( item => {
+    let newData = data.map( item => {
       const match = item[findBy].match(reg);
       if (!match) {
         return null;
@@ -55,7 +61,7 @@ const SearchFormtable = (props) => {
 
     }).filter(item => !!item);
 
-    props.filterData(newData);
+    filterData(newData);
   };
 
   return (
@@ -63,28 +69,28 @@ const SearchFormtable = (props) => {
       <Col span={12}>
         <Button
           type="primary"
-          onClick={props.getData}
-          loading={props.userTableStore.loading}>
+          onClick={getData}
+          loading={loading}>
           Reload
         </Button>
         <span style={{ marginLeft: 8 }}>
-          {props.isSelected ? `Selected ${props.selectedRowKeys.length} items` : ''}
+          {isSelected ? `Selected ${selectedRowKeys.length} items` : ''}
         </span>
       </Col>
       <Col span={3}>
         <Select
           style={{ width: '80%' }}
-          value={props.userTableStore.findBy}
+          value={findBy}
           onChange={handleFindChange}>
           <Option value="username">Username</Option>
           <Option value="fullname">Full Name</Option>
         </Select>
       </Col>
       <Col span={7}>
-        <Input value={props.userTableStore.inputValue} onChange={handleInputChange} disabled={props.userTableStore.isSearchFromDisabled}></Input>
+        <Input value={inputValue} onChange={handleInputChange} disabled={isSearchFromDisabled}></Input>
       </Col>
       <Col span={1} style={{marginLeft:20}}>
-        <Button type="primary" disabled={props.userTableStore.isSearchFromDisabled} onClick={onFindy}><Icon type="search" /></Button>
+        <Button type="primary" disabled={isSearchFromDisabled} onClick={onFindy}><Icon type="search" /></Button>
       </Col>
     </Row>
   );
@@ -92,9 +98,7 @@ const SearchFormtable = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    selectedRowKeys : state.userTableReducer.selectedRowKeys,
-    data : state.userTableReducer.data,
-    userTableStore : state.userTableReducer
+    userTableStore : state.userTableState,
   };
 };
 

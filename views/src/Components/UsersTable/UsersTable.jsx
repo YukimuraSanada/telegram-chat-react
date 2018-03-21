@@ -29,8 +29,10 @@ class UsersTable extends PureComponent {
     this.props.onSelectFields(selectedRowKeys);
   }
 
+
   render() {
-    const selectedRowKeys = this.props.selectedRowKeys;
+    const { selectedRowKeys, userTableStore } = this.props;
+    // const selectedRowKeys = this.props.selectedRowKeys;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onRowsSelect,
@@ -44,9 +46,9 @@ class UsersTable extends PureComponent {
         <Table
           rowSelection={rowSelection}
           rowKey={data => data._id}
-          loading={this.props.userTableStore.isLoading}
+          loading={userTableStore.isLoading}
           columns={this.columns}
-          dataSource={this.props.userTableStore.filteredData} />
+          dataSource={userTableStore.filteredData} />
       </div>
     );
   }
@@ -54,9 +56,9 @@ class UsersTable extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    selectedRowKeys : state.userTableReducer.selectedRowKeys,
-    data : state.userTableReducer.data,
-    userTableStore : state.userTableReducer
+    selectedRowKeys : state.userTableState.selectedRowKeys,
+    data : state.userTableState.data,
+    userTableStore : state.userTableState
   };
 };
 

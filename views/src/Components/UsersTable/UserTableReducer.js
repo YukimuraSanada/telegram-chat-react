@@ -1,3 +1,5 @@
+//TODO SPLIT TO 2 REDUCERS
+
 const initialState = {
   selectedRowKeys: [],
   isLoading: true,
