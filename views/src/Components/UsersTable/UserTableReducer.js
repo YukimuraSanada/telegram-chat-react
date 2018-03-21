@@ -7,7 +7,17 @@ const initialState = {
   filteredData : [],
   findBy : 'Choose field',
   isSearchFromDisabled : true,
-  data : []
+  data : [],
+  columns : [{
+    title: 'Username',
+    dataIndex: 'username'
+  }, {
+    title: 'Id',
+    dataIndex: 'id'
+  }, {
+    title: 'Full Name',
+    dataIndex: 'fullname'
+  }]
 };
 
 export const userTableReducer = (state = initialState, action) => {

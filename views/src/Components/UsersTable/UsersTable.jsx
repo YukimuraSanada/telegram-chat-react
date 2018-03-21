@@ -10,32 +10,15 @@ import { selectTableFields, loadingData } from './UserTableActions';
 
 class UsersTable extends PureComponent {
 
-  columns = [{
-    title: 'Username',
-    dataIndex: 'username'
-  }, {
-    title: 'Id',
-    dataIndex: 'id'
-  }, {
-    title: 'Full Name',
-    dataIndex: 'fullname'
-  }];
-
   componentDidMount(){
     this.props.getData();
   }
 
-  onRowsSelect = (selectedRowKeys) => {
-    this.props.onSelectFields(selectedRowKeys);
-  }
-
-
   render() {
-    const { selectedRowKeys, userTableStore } = this.props;
-    // const selectedRowKeys = this.props.selectedRowKeys;
+    const { userTableStore : { isLoading, columns, filteredData, selectedRowKeys }, onSelectFields } = this.props;
     const rowSelection = {
       selectedRowKeys,
-      onChange: this.onRowsSelect,
+      onChange: onSelectFields,
     };
     const isSelected = selectedRowKeys.length > 0;
     return (
@@ -46,26 +29,20 @@ class UsersTable extends PureComponent {
         <Table
           rowSelection={rowSelection}
           rowKey={data => data._id}
-          loading={userTableStore.isLoading}
-          columns={this.columns}
-          dataSource={userTableStore.filteredData} />
+          loading={isLoading}
+          columns={columns}
+          dataSource={filteredData} />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    selectedRowKeys : state.userTableState.selectedRowKeys,
-    data : state.userTableState.data,
-    userTableStore : state.userTableState
-  };
-};
+const mapStateToProps = state => ({ userTableStore : state.userTableState });
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    onSelectFields : (val) => {
-      dispatch(selectTableFields(val));
+    onSelectFields : (selectedRowKeys) => {
+      dispatch(selectTableFields(selectedRowKeys));
     },
     getData : () => {
       dispatch(loadingData());

@@ -8,6 +8,7 @@ const FILTER_DATA = 'FILTER_DATA';
 
 
 import axios from 'axios';
+import React from 'react';
 
 export const selectTableFields = (val) => {
   return {
@@ -16,10 +17,8 @@ export const selectTableFields = (val) => {
   };
 };
 
-export const startLoading = () => {
-  return {
-    type : START_LOADING_DATA
-  };
+export const startLoading =  {
+  type : START_LOADING_DATA
 };
 
 export const succesRequestTable = (val) => {
@@ -33,21 +32,6 @@ export const errorRequestTable = () => {
   return {
     type : ERROR_REQUEST_TABLE
   };
-};
-
-export const loadingData = () => async (dispatch) => {
-
-  dispatch(startLoading());
-  try{
-    let rslt = await axios.get('http://localhost:3030/users');
-    console.log(rslt);
-    const data = rslt.data;
-    dispatch(succesRequestTable(data));
-  }
-  catch(err){
-    dispatch(errorRequestTable());
-  }
-
 };
 
 export const changeFindSelect = (val) => {
@@ -69,4 +53,57 @@ export const filterData = (val) => {
     type : FILTER_DATA,
     payload : val
   };
+};
+
+export const loadingData = () => async (dispatch) => {
+
+  dispatch(startLoading);
+  try{
+    let rslt = await axios.get('http://localhost:3030/users');
+    dispatch(succesRequestTable(rslt.data));
+  }
+  catch(err){
+    dispatch(errorRequestTable());
+  }
+
+};
+
+export const onFindUsersAction = query => dispatch => {
+
+  const { inputValue, findBy, data } = query;
+  const reg = new RegExp( inputValue, 'gi');
+  let newData = data.map( item => {
+    const match = item[findBy].match(reg);
+    if (!match) {
+      return null;
+    }
+
+    if (findBy == 'username'){
+      return {
+        ...item,
+        username : (
+          <span>
+            {item[findBy].split(reg).map((text, i) => (
+              i > 0 ? [<span key={item._id} style={{backgroundColor: '#dff0ff'}}>{match[0]}</span>, text] : text
+            ))}
+          </span>
+        )
+      };
+    }
+    else {
+      return {
+        ...item,
+        fullname : (
+          <span>
+            {item[findBy].split(reg).map((text, i) => (
+              i > 0 ? [<span key={item._id} style={{backgroundColor: '#dff0ff'}}>{match[0]}</span>, text] : text
+            ))}
+          </span>
+        )
+      };
+    }
+
+  }).filter(item => !!item);
+
+  dispatch(filterData(newData));
 };

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Layout } from 'antd';
 const { Sider } = Layout;
@@ -6,23 +6,28 @@ const { Sider } = Layout;
 import SideMenu from './SideMenu.jsx';
 
 import { connect } from 'react-redux';
+import { selectMenuitem } from './SidebarActions';
 
-const SideBar = ({ collapsed }) => {
+const SideBar = ({ sidebarStore : { collapsed, selectedItem }, onHandleItem }) => {
   return (
     <Sider
       trigger={null}
       collapsible
       collapsed={collapsed}>
       <div className="logo" />
-      <SideMenu />
+      <SideMenu selectedItem={selectedItem} onHandleItem={onHandleItem}/>
     </Sider>
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = state => ({ sidebarStore : state.sidebarState });
+
+const mapDispatchToProps = dispatch => {
   return {
-    collapsed : state.sidebarState.collapsed
+    onHandleItem : val => {
+      dispatch(selectMenuitem(val));
+    }
   };
 };
 
-export default connect(mapStateToProps)(SideBar);
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

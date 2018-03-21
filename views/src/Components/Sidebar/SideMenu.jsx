@@ -1,18 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Menu, Icon } from 'antd';
 const { Item } = Menu;
 
-import { connect } from 'react-redux';
-import { selectMenuitem } from './SidebarActions';
-
-const SideMenu = ({ sidebarStore, onHandleItem }) => {
+const SideMenu = ({ selectedItem, onHandleItem }) => {
 
   return (
     <Menu
       theme="dark"
       mode="inline"
-      defaultSelectedKeys={[sidebarStore.selectedItem]}
+      defaultSelectedKeys={[selectedItem]}
       onSelect={ (item) => onHandleItem(item.key)}>
       <Item key="1" >
         <Icon type="user-delete" />
@@ -27,18 +24,4 @@ const SideMenu = ({ sidebarStore, onHandleItem }) => {
 
 };
 
-const mapStateToProps = state => {
-  return {
-    sidebarStore : state.sidebarState
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onHandleItem : val => {
-      dispatch(selectMenuitem(val));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);
+export default SideMenu;

@@ -22,11 +22,7 @@ const CustomHeader = ({ sidebarStore, onToggle }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    sidebarStore : state.sidebarState
-  };
-};
+const mapStateToProps = state => ({ sidebarStore : state.sidebarState });
 
 const mapDispatchToProps = dispatch => {
   return {

@@ -40,7 +40,7 @@ export const resetForm = () => ({
 
 export const submitForm = data => async (dispatch) => {
   try{
-    let res = await axios.post('/test', data);
+    let res = await axios.post('http://localhost:3030/test', data);
     dispatch(successRequest());
   }
   catch(err){

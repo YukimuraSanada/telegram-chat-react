@@ -4,64 +4,26 @@ import {  Button, Input, Row, Col, Icon, Select} from 'antd';
 const Option = Select.Option;
 
 import { connect } from 'react-redux';
-import { loadingData, changeFindSelect, changeFindInput, filterData } from './UserTableActions';
+import { loadingData, changeFindSelect, changeFindInput, filterData, onFindUsersAction } from './UserTableActions';
 
-const SearchFormtable = ({isSelected, userTableStore, getData, changeFindInput, changeFindSelect, filterData}) => {
-
-  const {
+const SearchFormtable = ({
+  isSelected,
+  userTableStore : {
     data,
     findBy,
     inputValue,
     loading,
     isSearchFromDisabled,
     selectedRowKeys
-  } = userTableStore;
+  },
+  getData,
+  changeFindInput,
+  changeFindSelect,
+  filterData,
+  onFindUsers }) => {
 
-  const handleFindChange = (value) => {
-    changeFindSelect(value);
-  };
-
-  const handleInputChange = (e) => {
-    changeFindInput(e.target.value);
-  };
-
-  const onFindy = () => {
-
-    const reg = new RegExp( inputValue, 'gi');
-    let newData = data.map( item => {
-      const match = item[findBy].match(reg);
-      if (!match) {
-        return null;
-      }
-
-      if (findBy == 'username'){
-        return {
-          ...item,
-          username : (
-            <span>
-              {item[findBy].split(reg).map((text, i) => (
-                i > 0 ? [<span key={item._id} style={{backgroundColor: '#dff0ff'}}>{match[0]}</span>, text] : text
-              ))}
-            </span>
-          )
-        };
-      }
-      else {
-        return {
-          ...item,
-          fullname : (
-            <span>
-              {item[findBy].split(reg).map((text, i) => (
-                i > 0 ? [<span key={item._id} style={{backgroundColor: '#dff0ff'}}>{match[0]}</span>, text] : text
-              ))}
-            </span>
-          )
-        };
-      }
-
-    }).filter(item => !!item);
-
-    filterData(newData);
+  const handleFindSubmit = () => {
+    onFindUsers({ inputValue, findBy, data });
   };
 
   return (
@@ -81,40 +43,39 @@ const SearchFormtable = ({isSelected, userTableStore, getData, changeFindInput, 
         <Select
           style={{ width: '80%' }}
           value={findBy}
-          onChange={handleFindChange}>
+          onChange={changeFindSelect}>
           <Option value="username">Username</Option>
           <Option value="fullname">Full Name</Option>
         </Select>
       </Col>
       <Col span={7}>
-        <Input value={inputValue} onChange={handleInputChange} disabled={isSearchFromDisabled}></Input>
+        <Input value={inputValue} onChange={changeFindInput} disabled={isSearchFromDisabled}></Input>
       </Col>
       <Col span={1} style={{marginLeft:20}}>
-        <Button type="primary" disabled={isSearchFromDisabled} onClick={onFindy}><Icon type="search" /></Button>
+        <Button type="primary" disabled={isSearchFromDisabled} onClick={handleFindSubmit}><Icon type="search" /></Button>
       </Col>
     </Row>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    userTableStore : state.userTableState,
-  };
-};
+const mapStateToProps = state => ({ userTableStore : state.userTableState });
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     getData : () => {
       dispatch(loadingData());
     },
-    changeFindSelect : data => {
-      dispatch(changeFindSelect(data));
+    changeFindSelect : value => {
+      dispatch(changeFindSelect(value));
     },
-    changeFindInput : data => {
-      dispatch(changeFindInput(data));
+    changeFindInput : e => {
+      dispatch(changeFindInput(e.target.value));
     },
     filterData : (data) => {
       dispatch(filterData(data));
+    },
+    onFindUsers : (query) => {
+      dispatch(onFindUsersAction(query));
     }
   };
 };

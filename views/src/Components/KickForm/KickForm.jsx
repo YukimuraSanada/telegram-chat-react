@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Form, Input, Button, Select } from 'antd';
 const Option = Select.Option;
@@ -7,26 +7,17 @@ const { TextArea } = Input;
 import { connect } from 'react-redux';
 import { userFieldChange, chatFieldChange, submitForm } from './KickFormActions';
 
-const KickForm = ({ onUsersChange, onSelectChange, kickFormState, onSubmitForm }) => {
-
-  const handleUsersChange = e => {
-    onUsersChange(e.target.value);
-  };
-
-  const handleChatChange = value => {
-    onSelectChange(value);
-  };
+const KickForm = ({ onUsersChange, onSelectChange, kickFormState : { textareaVal, selectVal } , onSubmitForm }) => {
 
   const handleSubmitForm = e => {
     e.preventDefault();
     const data = {
-      textareaVal : kickFormState.textarea,
-      selectVal : kickFormState.chatId
+      'textarea' : kickFormState.textareaVal,
+      'chatId' : kickFormState.selectVal,
     };
     onSubmitForm(data);
   };
 
-  const { textareaVal, selectVal } = kickFormState;
   return (
     <Form onSubmit={handleSubmitForm}>
       <h1>Kick users</h1>
@@ -35,12 +26,13 @@ const KickForm = ({ onUsersChange, onSelectChange, kickFormState, onSubmitForm }
         placeholder="Autosize height with minimum and maximum number of lines"
         autosize={{ minRows: 4, maxRows: 10 }}
         value={textareaVal}
-        onChange={handleUsersChange}>
+        onChange={onUsersChange}>
       </TextArea>
       <Select
         style={{marginBottom : 20}}
         value={selectVal}
-        onChange={handleChatChange}>
+        onChange={onSelectChange}>
+        <Option value="-1001235195076">TEST</Option>
         <Option value="-1001141677753">TRENIROVKI</Option>
         <Option value="-1001122317035">DIETOLOG</Option>
         <Option value="-1001158977542">PSIHOLOG</Option>
@@ -52,20 +44,15 @@ const KickForm = ({ onUsersChange, onSelectChange, kickFormState, onSubmitForm }
   );
 };
 
-
-const mapStateToProps = state => {
-  return {
-    kickFormState : state.kickFormState
-  };
-};
+const mapStateToProps = state => ({ kickFormState : state.kickFormState });
 
 const mapDispatchToProps = dispatch => {
   return {
-    onUsersChange : val => {
-      dispatch(userFieldChange(val));
+    onUsersChange : e => {
+      dispatch(userFieldChange(e.target.value));
     },
-    onSelectChange : val => {
-      dispatch(chatFieldChange(val));
+    onSelectChange : value => {
+      dispatch(chatFieldChange(value));
     },
     onSubmitForm : data => {
       dispatch(submitForm(data));

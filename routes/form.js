@@ -30,6 +30,7 @@ module.exports = app => {
   app.use(cors());
 
   router.use('/test', async (ctx,next) => {
+
     let usersString = ctx.request.body.textarea;
     ctx.chatToKick = ctx.request.body.chatId;
     ctx.inputUsersArr = usersString.split('\n');
@@ -47,57 +48,112 @@ module.exports = app => {
       ctx.missingDbUsers = _.difference(ctx.inputUsersArr, ctx.databaseUsers);
     }
     catch(err){
-      console.log('error on line 47 form.js');
+      console.log('error on line 51 form.js');
     }
     await next();
   });
 
-  router.post('/test', async (ctx, next) => {
+  // router.post('/test', async (ctx, next) => {
+  //
+  //   let chunksArr = _.chunk(ctx.userCartArrays, 20);  //inculde arrays of usercart objects
+  //   ctx.kickedUsersArr = [];
+  //   ctx.dontKickedUsersArr = [];
+  //
+  //   function* gen() {
+  //     let i =0;
+  //     while (i<chunksArr.length){
+  //       //iterates chunks in chunksArr
+  //       yield (async function(){
+  //         for (j=0;j<chunksArr[i].length;j++){
+  //           //iterates usercart objects in chunks
+  //           let rslt =  await kickChatMember(chunksArr[i][j], ctx.chatToKick);
+  //           if (rslt.isKicked){
+  //             ctx.kickedUsersArr.push(chunksArr[i][j].username);
+  //           }
+  //           else {
+  //             ctx.dontKickedUsersArr.push(chunksArr[i][j].username);
+  //           }
+  //         }
+  //         i++;
+  //       })();
+  //     }
+  //     yield (async function(){
+  //       clearInterval(tmer);
+  //       console.log(`Kicked Users: ${ctx.kickedUsersArr}`);
+  //       console.log(`Dont kicked users : ${ctx.dontKickedUsersArr}`);
+  //       console.log(`Users miss in database : ${ctx.missingDbUsers}`);
+  //       try{
+  //         await global.botx.sendMessage(cfg.tid, `Kicked Users: ${ctx.kickedUsersArr}`);
+  //         await global.botx.sendMessage(cfg.tid, `Dont kicked users : ${ctx.dontKickedUsersArr}`);
+  //         await global.botx.sendMessage(cfg.tid, `Users miss in database : ${ctx.missingDbUsers}`);
+  //       }
+  //       catch(err){
+  //         console.log('error on line 87 form.js');
+  //       }
+  //     })();
+  //   }
+  //
+  //   let iter = gen();
+  //   let tmer = setInterval(function () {
+  //     let rs = iter.next();
+  //   }, 1000);
+  //
+  //   ctx.status = 200;
+  // });
 
-    let chunksArr = _.chunk(ctx.userCartArrays, 20);  //inculde arrays of usercart objects
+  router.post('/test', async ctx => {
+    // console.log(`ARRAY USERS FROM DATABASE: ${ctx.databaseUsers}`);
+    //TODO add 1 sec delay across the chunks sending THIS IS SHIT
+    let chunksArr = _.chunk(ctx.userCartArrays, 1);  //inculde arrays of usercart objects
+
+    // console.log(chunksArr);
     ctx.kickedUsersArr = [];
     ctx.dontKickedUsersArr = [];
 
-    function* gen() {
-      let i =0;
-      while (i<chunksArr.length){
-        //iterates chunks in chunksArr
-        yield (async function(){
-          for (j=0;j<chunksArr[i].length;j++){
-            //iterates usercart objects in chunks
-            let rslt =  await kickChatMember(chunksArr[i][j], ctx.chatToKick);
-            if (rslt.isKicked){
-              ctx.kickedUsersArr.push(chunksArr[i][j].username);
-            }
-            else {
-              ctx.dontKickedUsersArr.push(chunksArr[i][j].username);
-            }
-          }
-          i++;
-        })();
+
+    // ADOVYJ KOSTYL'!!!!!!!!!!!
+    let sleep = (time, callback) => {
+      let stop = new Date().getTime();
+      while(new Date().getTime() < stop + time) {
+        ;
       }
-      yield (async function(){
-        clearInterval(tmer);
-        console.log(`Kicked Users: ${ctx.kickedUsersArr}`);
-        console.log(`Dont kicked users : ${ctx.dontKickedUsersArr}`);
-        console.log(`Users miss in database : ${ctx.missingDbUsers}`);
-        try{
-          await global.botx.sendMessage(cfg.tid, `Kicked Users: ${ctx.kickedUsersArr}`);
-          await global.botx.sendMessage(cfg.tid, `Dont kicked users : ${ctx.dontKickedUsersArr}`);
-          await global.botx.sendMessage(cfg.tid, `Users miss in database : ${ctx.missingDbUsers}`);
+      callback();
+    };
+
+
+    let i = 0;
+    while (i<chunksArr.length){
+      //iterates chunks in chunksArr
+      for (j=0;j<chunksArr[i].length;j++){
+        //iterates usercart objects in chunks
+        // console.log(chunksArr[i][j]);
+        let rslt =  await kickChatMember(chunksArr[i][j]);
+        if (rslt.isKicked){
+          ctx.kickedUsersArr.push(chunksArr[i][j].username);
         }
-        catch(err){
-          console.log('error on line 87 form.js');
+        else {
+          ctx.dontKickedUsersArr.push(chunksArr[i][j].username);
         }
-      })();
+      }
+      //delay 1 sec here
+      sleep(1000, function() {
+        i++;
+      });
+
     }
-
-    let iter = gen();
-    let tmer = setInterval(function () {
-      let rs = iter.next();
-    }, 1000);
-
+    console.log(`Kicked Users: ${ctx.kickedUsersArr}`);
+    console.log(`Dont kicked users : ${ctx.dontKickedUsersArr}`);
+    console.log(`Users miss in database : ${ctx.missingDbUsers}`);
+    try{
+      await global.botx.sendMessage(cfg.tid, `Kicked Users: ${ctx.kickedUsersArr}`);
+      await global.botx.sendMessage(cfg.tid, `Dont kicked users : ${ctx.dontKickedUsersArr}`);
+      await global.botx.sendMessage(cfg.tid, `Users miss in database : ${ctx.missingDbUsers}`);
+    }
+    catch(err){
+      console.log('error at line 154 form.js');
+    }
     ctx.status = 200;
+    // ctx.body = rslt;
   });
 
   app.use(router.routes());
