@@ -3,6 +3,8 @@ import React from 'react';
 import {  Button, Input, Row, Col, Icon, Select} from 'antd';
 const Option = Select.Option;
 
+import { connect } from 'react-redux';
+
 const SearchFormtable = (props) => {
 
   const { onReload, loading, findBy, onFindChange, inputValue, onInputChange, onFind, searchFromDisabled, selectedRowKeys } = props;
@@ -39,4 +41,18 @@ const SearchFormtable = (props) => {
   );
 };
 
-export default SearchFormtable;
+const mapStateToProps = (state) => {
+  return {
+    userTableStore : state.userTableReducer
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onHandleItem : (val) => {
+      dispatch(selectMenuitem(val));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchFormtable);

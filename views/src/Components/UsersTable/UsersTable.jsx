@@ -4,6 +4,9 @@ import { Table } from 'antd';
 import axios from 'axios';
 import SearchFormtable from './SearhFormTable.jsx';
 
+import { connect } from 'react-redux';
+import { selectTableFields, loadingData } from './UserTableActions';
+
 const columns = [{
   title: 'Username',
   dataIndex: 'username'
@@ -17,7 +20,7 @@ const columns = [{
 
 let data = [];
 
-export default class UsersTable extends PureComponent {
+class UsersTable extends PureComponent {
   state = {
     selectedRowKeys: [],
     isLoading: true,
@@ -59,9 +62,10 @@ export default class UsersTable extends PureComponent {
 
   onSelectChange = (selectedRowKeys) => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
-    this.setState({
-      selectedRowKeys
-    });
+    // this.setState({
+    //   selectedRowKeys
+    // });
+    this.props.onSelectFields(selectedRowKeys);
   }
 
   handleInputChange = (e) => {
@@ -119,7 +123,9 @@ export default class UsersTable extends PureComponent {
   }
 
   render() {
-    const { isLoading, selectedRowKeys, inputValue, findBy, isSearchFromDisabled } = this.state;
+    const { isLoading, inputValue, findBy, isSearchFromDisabled } = this.state;
+    console.log(this.props.userTableStore.selectedRowKeys);
+    const selectedRowKeys = this.props.selectedRowKeys;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -141,8 +147,28 @@ export default class UsersTable extends PureComponent {
             onFindChange={this.handleFindChange}
           />
         </div>
-        <Table rowSelection={rowSelection}  rowKey={data => data._id} loading={this.state.isLoading} columns={columns} dataSource={this.state.filteredData} />
+        <Table rowSelection={rowSelection}  rowKey={data => data._id} loading={this.props.userTableStore.isLoading} columns={columns} dataSource={this.state.filteredData} />
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    selectedRowKeys : state.userTableReducer.selectedRowKeys,
+    userTableStore : state.userTableReducer
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSelectFields : (val) => {
+      dispatch(selectTableFields(val));
+    },
+    getData : () => {
+      dispatch(loadingData());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UsersTable);
