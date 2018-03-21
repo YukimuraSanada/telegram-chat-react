@@ -8,9 +8,8 @@ import { connect } from 'react-redux';
 import { toggleSidebar } from './Sidebar/SidebarActions';
 
 
-const CustomHeader = (props) => {
+const CustomHeader = ({ sidebarStore, onToggle }) => {
 
-  const { sidebarStore, onToggle } = props;
   return (
     <Header style={{ background: '#fff', padding: 0 }}>
       <div style={{paddingLeft : 30}}>
@@ -23,13 +22,13 @@ const CustomHeader = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    sidebarStore : state.pageReducer
+    sidebarStore : state.sidebarState
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     onToggle : () => {
       dispatch(toggleSidebar());

@@ -7,21 +7,21 @@ import SideMenu from './SideMenu.jsx';
 
 import { connect } from 'react-redux';
 
-const SideBar = (props) => {
+const SideBar = ({ collapsed }) => {
   return (
     <Sider
       trigger={null}
       collapsible
-      collapsed={props.sidebarStore.collapsed}>
+      collapsed={collapsed}>
       <div className="logo" />
       <SideMenu />
     </Sider>
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    sidebarStore : state.pageReducer
+    collapsed : state.sidebarState.collapsed
   };
 };
 

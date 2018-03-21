@@ -6,11 +6,14 @@ const { Item } = Menu;
 import { connect } from 'react-redux';
 import { selectMenuitem } from './SidebarActions';
 
-const SideMenu = (props) => {
+const SideMenu = ({ sidebarStore, onHandleItem }) => {
 
-  const { sidebarStore, onHandleItem } = props;
   return (
-    <Menu theme="dark" mode="inline" defaultSelectedKeys={[sidebarStore.selectedItem.toString()]} onSelect={ (item) => onHandleItem(item.key)}>
+    <Menu
+      theme="dark"
+      mode="inline"
+      defaultSelectedKeys={[sidebarStore.selectedItem]}
+      onSelect={ (item) => onHandleItem(item.key)}>
       <Item key="1" >
         <Icon type="user-delete" />
         <span>Kick users</span>
@@ -21,18 +24,18 @@ const SideMenu = (props) => {
       </Item>
     </Menu>
   );
-  
+
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    sidebarStore : state.pageReducer
+    sidebarStore : state.sidebarState
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    onHandleItem : (val) => {
+    onHandleItem : val => {
       dispatch(selectMenuitem(val));
     }
   };

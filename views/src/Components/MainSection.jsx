@@ -9,9 +9,9 @@ const { Content } = Layout;
 
 import { connect } from 'react-redux';
 
-const MainSection = (props) => {
+const MainSection = ({ sidebarStore }) => {
 
-  const { collapsed, selectedItem } = props.sidebarStore;
+  const { collapsed, selectedItem } = sidebarStore;
   return (
     <Layout>
       <CustomHeader collapsed={collapsed} />
@@ -23,9 +23,9 @@ const MainSection = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    sidebarStore : state.pageReducer
+    sidebarStore : state.sidebarState
   };
 };
 
