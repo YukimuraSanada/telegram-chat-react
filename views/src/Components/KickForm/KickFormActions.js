@@ -3,6 +3,7 @@ const CHAT_FIELD_CHANGE = 'CHAT_FIELD_CHANGE';
 const SUCCESS_REQUEST = 'SUCCESS_REQUEST';
 const ERROR_REQUEST = 'ERROR_REQUEST';
 const RESET_FORM = 'RESET_FORM';
+const START_REQUEST = 'START_REQUEST';
 
 import axios from 'axios';
 
@@ -20,34 +21,39 @@ export const chatFieldChange = val => {
   };
 };
 
-export const successRequest = () => {
+export const successRequest = req => {
   return {
     type : SUCCESS_REQUEST,
-    payload :  'Form was successfully sent!'
+    payload :  req
   };
 };
 
-export const errorRequest = code => {
+export const errorRequest = err => {
   return {
     type : ERROR_REQUEST,
-    payload :  `An error occurred! ${code.statusText} - ${code.status}`
+    payload : err
   };
 };
 
-export const resetForm = () => ({
-  type : RESET_FORM
-});
+export const startRequest = {
+  type : START_REQUEST
+};
 
-export const submitForm = data => async (dispatch) => {
+export const resetForm = {
+  type : RESET_FORM
+};
+
+export const submitForm = data => async dispatch => {
   try{
-    let res = await axios.post('http://localhost:3030/test', data);
-    dispatch(successRequest());
+    dispatch(startRequest);
+    let req = await axios.post('http://localhost:3030/test', data);
+    dispatch(successRequest(req.data));
   }
   catch(err){
-    dispatch(errorRequest(err.response));
     console.dir(err);
+    dispatch(errorRequest(err.message));
   }
   finally{
-    dispatch(resetForm());
+    dispatch(resetForm);
   }
 };

@@ -5,6 +5,7 @@ import { Layout } from 'antd';
 
 import SideBar from './Components/Sidebar/SiderBar.jsx';
 import MainSection from './Components/MainSection.jsx';
+import './globalStyles.css';
 
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';

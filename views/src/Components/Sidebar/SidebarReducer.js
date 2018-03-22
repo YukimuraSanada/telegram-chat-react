@@ -1,6 +1,6 @@
 const initialState = {
   collapsed: true,
-  selectedItem : '2'
+  selectedItem : '1'
 };
 
 export const pageReducer = (state = initialState, action) => {

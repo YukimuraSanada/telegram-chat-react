@@ -30,15 +30,14 @@ module.exports = app => {
   app.use(cors());
 
   router.use('/test', async (ctx,next) => {
-
-    let usersString = ctx.request.body.textarea;
-    ctx.chatToKick = ctx.request.body.chatId;
+    const { textarea, chatId } = ctx.request.body;
+    let usersString = textarea;
+    ctx.chatToKick = chatId;
     ctx.inputUsersArr = usersString.split('\n');
     await next();
   });
 
   router.use('/test', async (ctx,next) => {
-    console.log(`INPUT ARR : ${ctx.inputUsersArr}`);
 
     try{
       ctx.userCartArrays = await getUsersId(ctx.inputUsersArr);
@@ -102,14 +101,12 @@ module.exports = app => {
   // });
 
   router.post('/test', async ctx => {
-    // console.log(`ARRAY USERS FROM DATABASE: ${ctx.databaseUsers}`);
-    //TODO add 1 sec delay across the chunks sending THIS IS SHIT
-    let chunksArr = _.chunk(ctx.userCartArrays, 1);  //inculde arrays of usercart objects
+    let chunksArr = _.chunk(ctx.userCartArrays, 25);  //inculde arrays of usercart objects
 
-    // console.log(chunksArr);
     ctx.kickedUsersArr = [];
     ctx.dontKickedUsersArr = [];
 
+    const { userCartArrays, kickedUsersArr, dontKickedUsersArr, missingDbUsers } = ctx;
 
     // ADOVYJ KOSTYL'!!!!!!!!!!!
     let sleep = (time, callback) => {
@@ -129,10 +126,10 @@ module.exports = app => {
         // console.log(chunksArr[i][j]);
         let rslt =  await kickChatMember(chunksArr[i][j]);
         if (rslt.isKicked){
-          ctx.kickedUsersArr.push(chunksArr[i][j].username);
+          kickedUsersArr.push(chunksArr[i][j].username);
         }
         else {
-          ctx.dontKickedUsersArr.push(chunksArr[i][j].username);
+          dontKickedUsersArr.push(chunksArr[i][j].username);
         }
       }
       //delay 1 sec here
@@ -141,19 +138,25 @@ module.exports = app => {
       });
 
     }
-    console.log(`Kicked Users: ${ctx.kickedUsersArr}`);
-    console.log(`Dont kicked users : ${ctx.dontKickedUsersArr}`);
-    console.log(`Users miss in database : ${ctx.missingDbUsers}`);
+
+
+    console.log(`Kicked Users: ${kickedUsersArr}`);
+    console.log(`Dont kicked users : ${dontKickedUsersArr}`);
+    console.log(`Users miss in database : ${missingDbUsers}`);
     try{
-      await global.botx.sendMessage(cfg.tid, `Kicked Users: ${ctx.kickedUsersArr}`);
-      await global.botx.sendMessage(cfg.tid, `Dont kicked users : ${ctx.dontKickedUsersArr}`);
-      await global.botx.sendMessage(cfg.tid, `Users miss in database : ${ctx.missingDbUsers}`);
+      // await global.botx.sendMessage(cfg.tid, `Kicked Users: ${kickedUsersArr}`);
+      // await global.botx.sendMessage(cfg.tid, `Dont kicked users : ${dontKickedUsersArr}`);
+      // await global.botx.sendMessage(cfg.tid, `Users miss in database : ${missingDbUsers}`);
     }
     catch(err){
       console.log('error at line 154 form.js');
     }
     ctx.status = 200;
-    // ctx.body = rslt;
+    ctx.body = {
+      kickedUsersArr : kickedUsersArr,
+      dontKickedUsersArr : dontKickedUsersArr,
+      missingDbUsers : missingDbUsers
+    };
   });
 
   app.use(router.routes());

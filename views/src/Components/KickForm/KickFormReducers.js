@@ -1,7 +1,9 @@
 const initialState = {
   textareaVal : '',
   selectVal : 'Choose the chat',
-  res : ''
+  isLoading : false,
+  resData : {},
+  error : ''
 };
 
 export const kickFormReducer = (state = initialState, action) => {
@@ -10,10 +12,12 @@ export const kickFormReducer = (state = initialState, action) => {
     return { ...state, textareaVal : action.payload };
   case 'CHAT_FIELD_CHANGE':
     return { ...state, selectVal : action.payload };
+  case 'START_REQUEST':
+    return { ...state, isLoading : true, error : '' };
   case 'SUCCESS_REQUEST':
-    return { ...state, res : action.payload };
+    return { ...state, isLoading : false, resData : action.payload };
   case 'ERROR_REQUEST':
-    return { ...state, res : action.payload };
+    return { ...state, isLoading : false, error : action.payload };
   case 'RESET_FORM':
     return { ...state, textareaVal : '', selectVal : 'Choose the chat', };
   default:
