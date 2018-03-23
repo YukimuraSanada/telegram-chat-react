@@ -13,6 +13,9 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './rootReducer';
 
+import { BrowserRouter } from 'react-router-dom';
+
+
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 class App extends Component {
@@ -20,10 +23,12 @@ class App extends Component {
   render(){
     return (
       <Provider store={store}>
-        <Layout  style={{ minHeight: '100vh' }}>
-          <SideBar/>
-          <MainSection></MainSection>
-        </Layout>
+        <BrowserRouter>
+          <Layout  style={{ minHeight: '100vh' }}>
+            <SideBar/>
+            <MainSection />
+          </Layout>
+        </BrowserRouter>
       </Provider>
     );
   }

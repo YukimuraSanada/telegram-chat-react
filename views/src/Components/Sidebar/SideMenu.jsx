@@ -3,21 +3,28 @@ import React from 'react';
 import { Menu, Icon } from 'antd';
 const { Item } = Menu;
 
-const SideMenu = ({ selectedItem, onHandleItem }) => {
+import { Link } from 'react-router-dom';
+
+const SideMenu = () => {
 
   return (
     <Menu
       theme="dark"
       mode="inline"
-      defaultSelectedKeys={[selectedItem]}
-      onSelect={ (item) => onHandleItem(item.key)}>
+      defaultSelectedKeys={['1']}>
+
       <Item key="1" >
-        <Icon type="user-delete" />
-        <span>Kick users</span>
+        <Link to='/'>
+          <Icon type="user-delete" />
+          <span>Kick users</span>
+        </Link>
       </Item>
+
       <Item key="2">
-        <Icon type="table" />
-        <span>Show all users</span>
+        <Link to='/userstable'>
+          <Icon type="table" />
+          <span>Show all users</span>
+        </Link>
       </Item>
     </Menu>
   );
