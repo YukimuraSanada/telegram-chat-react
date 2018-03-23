@@ -19,7 +19,7 @@ export const kickFormReducer = (state = initialState, action) => {
   case 'ERROR_REQUEST':
     return { ...state, isLoading : false, error : action.payload };
   case 'RESET_FORM':
-    return { ...state, textareaVal : '', selectVal : 'Choose the chat', };
+    return { ...state, textareaVal : '' };
   default:
     return state;
   }

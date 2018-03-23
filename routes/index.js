@@ -1,4 +1,5 @@
 module.exports = (app) => {
-  require('./form')(app);
+  require('./kickmember')(app);
+  require('./unBanMember')(app);
   require('./users')(app);
 };

@@ -1,3 +1,4 @@
 module.exports = {
-  kickChatMember : require('./kickChatMember')
+  kickChatMember : require('./kickChatMember'),
+  unbanChatMember : require('./unbanChatMember')
 };

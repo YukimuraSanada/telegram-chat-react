@@ -5,4 +5,7 @@
 + Add Component for watch full user info
 + Add tbotrequest to get user info
 + Code splitting (React Router)
-+ method to unban users
++ ~~method to unban users~~
+ + REFACTOR THIS!!!
+ + Add component to watch unban users
+ + Refactor Kickform components

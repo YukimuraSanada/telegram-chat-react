@@ -2,7 +2,7 @@
 * @async
 * Kick user from chat
 * @function
-* @param {object} userCart - object of telegram username && id.
+* @param {object , string} userCart - object contains username and ID, chat Id.
 * @return {Promise<object>} promise returns object with results
 */
 

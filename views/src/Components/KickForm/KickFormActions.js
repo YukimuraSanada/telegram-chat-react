@@ -46,8 +46,23 @@ export const resetForm = {
 export const submitForm = data => async dispatch => {
   try{
     dispatch(startRequest);
-    let req = await axios.post('http://localhost:3030/test', data);
-    dispatch(successRequest(req.data));
+    let res = await axios.post('http://localhost:3030/test', data);
+    dispatch(successRequest(res.data));
+  }
+  catch(err){
+    console.dir(err);
+    dispatch(errorRequest(err.message));
+  }
+  finally{
+    dispatch(resetForm);
+  }
+};
+
+export const unban = data => async dispatch => {
+  try{
+    dispatch(startRequest);
+    let res = await axios.post('http://localhost:3030/unban', data);
+    console.log(res);
   }
   catch(err){
     console.dir(err);

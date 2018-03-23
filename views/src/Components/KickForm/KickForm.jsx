@@ -49,9 +49,10 @@ const KickForm = ({ onUsersChange, onSelectChange, kickFormState : { textareaVal
             <Button size="large" htmlType="submit" type="primary">KICK USERS</Button>
           </Form>
         </Card>
-        { isResNotEmpty && <FormResults data={resData}/> }
+        { isResNotEmpty && <FormResults data={resData} chatId={selectVal}/> }
         { error &&
           <Alert
+            style={{ marginTop : 20}}
             message="Error"
             description={error}
             type="error"
