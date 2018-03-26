@@ -1,10 +1,6 @@
-/** TODO add parse more then one user
-* ctx = {
-*   inputUsersArr - array of users from front request,
-*   databaseUsers - users which include in database
-*   missingDbUsers - users which not include in database
-* }
-*/
+// TODO add parse more then one user
+
+
 const bodyParser = require('koa-bodyparser');
 const Router = require('koa-router');
 const router = new Router();
@@ -30,11 +26,9 @@ module.exports = app => {
   app.use(cors());
 
   router.use('/test', async (ctx,next) => {
-    const { textarea, chatId } = ctx.request.body;
-    let usersString = textarea;
+    const { textarea : usersString, chatId } = ctx.request.body;
     ctx.chatToKick = chatId;
     ctx.inputUsersArr = usersString.split('\n');
-    console.log(ctx.inputUsersArr);
     await next();
   });
 
@@ -42,9 +36,7 @@ module.exports = app => {
 
     try{
       ctx.userCartArrays = await getUsersId(ctx.inputUsersArr);
-      ctx.databaseUsers = ctx.userCartArrays.map( item => {
-        return item.username;
-      });
+      ctx.databaseUsers = ctx.userCartArrays.map( item => item.username );
       ctx.missingDbUsers = _.difference(ctx.inputUsersArr, ctx.databaseUsers);
     }
     catch(err){
@@ -53,56 +45,8 @@ module.exports = app => {
     await next();
   });
 
-  // router.post('/test', async (ctx, next) => {
-  //
-  //   let chunksArr = _.chunk(ctx.userCartArrays, 20);  //inculde arrays of usercart objects
-  //   ctx.kickedUsersArr = [];
-  //   ctx.dontKickedUsersArr = [];
-  //
-  //   function* gen() {
-  //     let i =0;
-  //     while (i<chunksArr.length){
-  //       //iterates chunks in chunksArr
-  //       yield (async function(){
-  //         for (j=0;j<chunksArr[i].length;j++){
-  //           //iterates usercart objects in chunks
-  //           let rslt =  await kickChatMember(chunksArr[i][j], ctx.chatToKick);
-  //           if (rslt.isKicked){
-  //             ctx.kickedUsersArr.push(chunksArr[i][j].username);
-  //           }
-  //           else {
-  //             ctx.dontKickedUsersArr.push(chunksArr[i][j].username);
-  //           }
-  //         }
-  //         i++;
-  //       })();
-  //     }
-  //     yield (async function(){
-  //       clearInterval(tmer);
-  //       console.log(`Kicked Users: ${ctx.kickedUsersArr}`);
-  //       console.log(`Dont kicked users : ${ctx.dontKickedUsersArr}`);
-  //       console.log(`Users miss in database : ${ctx.missingDbUsers}`);
-  //       try{
-  //         await global.botx.sendMessage(cfg.tid, `Kicked Users: ${ctx.kickedUsersArr}`);
-  //         await global.botx.sendMessage(cfg.tid, `Dont kicked users : ${ctx.dontKickedUsersArr}`);
-  //         await global.botx.sendMessage(cfg.tid, `Users miss in database : ${ctx.missingDbUsers}`);
-  //       }
-  //       catch(err){
-  //         console.log('error on line 87 form.js');
-  //       }
-  //     })();
-  //   }
-  //
-  //   let iter = gen();
-  //   let tmer = setInterval(function () {
-  //     let rs = iter.next();
-  //   }, 1000);
-  //
-  //   ctx.status = 200;
-  // });
-
   router.post('/test', async ctx => {
-    let chunksArr = _.chunk(ctx.userCartArrays, 25);  //inculde arrays of usercart objects
+    const chunksArr = _.chunk(ctx.userCartArrays, 29);  //inculde arrays of usercart objects
 
     ctx.kickedUsersArr = [];
     ctx.dontKickedUsersArr = [];
@@ -118,14 +62,13 @@ module.exports = app => {
       callback();
     };
 
-
     let i = 0;
     while (i<chunksArr.length){
       //iterates chunks in chunksArr
       for (j=0;j<chunksArr[i].length;j++){
         //iterates usercart objects in chunks
         // console.log(chunksArr[i][j]);
-        let rslt =  await kickChatMember(chunksArr[i][j], chatToKick);
+        const rslt =  await kickChatMember(chunksArr[i][j], chatToKick);
         if (rslt.isKicked){
           kickedUsersArr.push(chunksArr[i][j].username);
         }
@@ -139,7 +82,6 @@ module.exports = app => {
       });
 
     }
-
 
     console.log(`Kicked Users: ${kickedUsersArr}`);
     console.log(`Dont kicked users : ${dontKickedUsersArr}`);

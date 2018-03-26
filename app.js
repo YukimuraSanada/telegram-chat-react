@@ -10,13 +10,13 @@ const app = new Koa();
 const serve = require('koa-static');
 
 const { addUser, clearCollection } = require('./methods/dbrequests');
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || cfg.port;
 
 app.use(serve('views/public'));
 
-let startServer = async () => {
+const startServer = async () => {
   try{
-    let client = await MongoClient.connect(cfg.mongoUri);
+    const client = await MongoClient.connect(cfg.mongoUri);
     console.log('Successful connect to db');
     global.collect = client.db('main').collection('users');
 
@@ -27,7 +27,7 @@ let startServer = async () => {
 
     bot.on('message', async msg => {
       try{
-        let res = await addUser(msg);
+        const res = await addUser(msg);
         console.log(res.status ? `Add new user ${res.user}` : 'Updating error');
       } catch(err){
         console.log(err);

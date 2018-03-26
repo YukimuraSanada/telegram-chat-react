@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Col, Row, Button } from 'antd';
+import { Card, Col, Row, Button, notification } from 'antd';
 
 import { connect } from 'react-redux';
 
@@ -23,19 +23,40 @@ const FormResults = ({ data : { kickedUsersArr, dontKickedUsersArr, missingDbUse
     onButtonClick(data);
   };
 
+  const openNot = () => {
+    notification.warn({
+      message: 'Notification Title',
+      description: `This is the content of the notification.
+      This is the content of the notification.
+      This is the content of the notification.`,
+    });
+  };
+
+  //TODO add to ComponentWillRecieveProps and add check
+  openNot();
+
   return (
     <Row gutter={16}>
       <Col span={8}>
         <Card title={`Kicked Users ${kickedUsersArr.length}`}>
           {dataToList(kickedUsersArr)}
-          <Button onClick={handleButtonClick} type='danger' style={{ margin : '15px auto 0', display : 'block'}}>Unban Users</Button>
+          <Button
+            onClick={openNot}
+            type='danger'
+            style={{ margin : '15px auto 0', display : 'block'}}>
+            Unban Users
+          </Button>
         </Card>
       </Col>
       <Col span={8}>
-        <Card title={`Dont kicked users ${dontKickedUsersArr.length}`}>{dataToList(dontKickedUsersArr)}</Card>
+        <Card title={`Dont kicked users ${dontKickedUsersArr.length}`}>
+          {dataToList(dontKickedUsersArr)}
+        </Card>
       </Col>
       <Col span={8}>
-        <Card title={`Users which miss in database ${missingDbUsers.length}`}>{dataToList(missingDbUsers)}</Card>
+        <Card title={`Users which miss in database ${missingDbUsers.length}`}>
+          {dataToList(missingDbUsers)}
+        </Card>
       </Col>
     </Row>
   );

@@ -15,7 +15,9 @@ export const kickFormReducer = (state = initialState, action) => {
   case 'START_REQUEST':
     return { ...state, isLoading : true, error : '' };
   case 'SUCCESS_REQUEST':
-    return { ...state, isLoading : false, resData : action.payload };
+    return { ...state, isLoading : false };
+  case 'UPDATE_DATA_AFTER_REQUEST':
+    return { ...state, resData : action.payload };
   case 'ERROR_REQUEST':
     return { ...state, isLoading : false, error : action.payload };
   case 'RESET_FORM':

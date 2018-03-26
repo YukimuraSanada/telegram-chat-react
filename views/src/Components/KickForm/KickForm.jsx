@@ -9,7 +9,17 @@ import { userFieldChange, chatFieldChange, submitForm } from './KickFormActions'
 
 import FormResults from './FormResults.jsx';
 
-const KickForm = ({ onUsersChange, onSelectChange, kickFormState : { textareaVal, selectVal, resData, isLoading, error } , onSubmitForm }) => {
+const KickForm = ({
+  onUsersChange,
+  onSelectChange,
+  kickFormState : {
+    textareaVal,
+    selectVal,
+    resData,
+    isLoading,
+    error
+  },
+  onSubmitForm }) => {
 
   const handleSubmitForm = e => {
     e.preventDefault();

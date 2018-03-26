@@ -3,7 +3,7 @@
 * Add user to database from telegram listener
 * @function
 * @param {object} msg - data from tbot listener.
-* @return {Promise<object>} 
+* @return {Promise<object>}
 */
 
 module.exports = async msg => {
@@ -18,7 +18,7 @@ module.exports = async msg => {
   id = msg[eventType].id || '';
   userName = msg[eventType].username ? `@${msg[eventType].username}` : 'NoUserName';
 
-  let data = await global.collect.update(
+  const data = await global.collect.update(
     {id:id},
     {id:id,username:userName,fullname:fullName},
     {upsert:true}

@@ -17,7 +17,7 @@ module.exports = app => {
   app.use(cors());
 
   router.get('/users', async (ctx,next) => {
-    let fullCollection = await global.collect.find().toArray();
+    const fullCollection = await global.collect.find().toArray();
 
     ctx.body = fullCollection;
     ctx.status = 200;

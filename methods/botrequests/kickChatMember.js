@@ -11,7 +11,7 @@ const { getUsersId } = require('../dbrequests');
 module.exports = async (userCart, chatId) => {
 
   try{
-    let rslt = await global.botx.kickChatMember(chatId,userCart.id);
+    const rslt = await global.botx.kickChatMember(chatId,userCart.id);
     return {
       user : userCart.username,
       message : 'Successful kicked',
