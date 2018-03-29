@@ -6,6 +6,8 @@ const RESET_FORM = 'RESET_FORM';
 const START_REQUEST = 'START_REQUEST';
 const UPDATE_DATA_AFTER_REQUEST = 'UPDATE_DATA_AFTER_REQUEST';
 
+
+import { notification } from 'antd';
 import axios from 'axios';
 
 export const userFieldChange = val => {
@@ -48,16 +50,34 @@ export const resetForm = {
   type : RESET_FORM
 };
 
+
+const notificationSuccess = () => {
+  notification.success({
+    message: 'Success!',
+    duration : 3
+  });
+};
+
+const notificationError = (err) => {
+  notification.error({
+    message: 'Error!',
+    description : `${err}`,
+    duration : 3
+  });
+};
+
 export const submitForm = data => async dispatch => {
   try{
     dispatch(startRequest);
     let res = await axios.post('http://localhost:3030/test', data);
     dispatch(updateDataAfterSuccess(res.data));
     dispatch(successRequest);
+    notificationSuccess();
   }
   catch(err){
     console.dir(err);
     dispatch(errorRequest(err.message));
+    notificationError(err.message);
   }
   finally{
     dispatch(resetForm);
@@ -70,10 +90,12 @@ export const unban = data => async dispatch => {
     let res = await axios.post('http://localhost:3030/unban', data);
     console.log(res);
     dispatch(successRequest);
+    notificationSuccess();
   }
   catch(err){
     console.dir(err);
     dispatch(errorRequest(err.message));
+    notificationError(err.message);
   }
   finally{
     dispatch(resetForm);
