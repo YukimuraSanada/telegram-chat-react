@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import { Layout, Icon } from 'antd';
-
 const { Header } = Layout;
 
 import { connect } from 'react-redux';

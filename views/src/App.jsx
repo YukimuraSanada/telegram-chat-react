@@ -13,7 +13,7 @@ import { BrowserRouter } from 'react-router-dom';
 import SideBar from 'Components/Sidebar/SiderBar';
 import 'src/globalStyles';
 import rootReducer from 'src/rootReducer';
-import ContentSectionLoadable from './LoadableHOCs/ContentSectionLoadable'
+import ContentSectionLoadable from './LoadableHOCs/ContentSectionLoadable';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 

@@ -25,14 +25,21 @@ module.exports = app => {
 
   app.use(cors());
 
-  router.use('/test', async (ctx,next) => {
+  router.use('/test', async (ctx, next) => {
     const { textarea : usersString, chatId } = ctx.request.body;
     ctx.chatToKick = chatId;
-    ctx.inputUsersArr = usersString.split('\n');
+    ctx.inputArr = usersString.split('\n');
     await next();
   });
 
-  router.use('/test', async (ctx,next) => {
+  router.use('/test', async (ctx, next) => {
+    ctx.inputUsersArr = ctx.inputArr.map( item => {
+      return item[0] == '@' ? item : `@${item}`;
+    });
+    await next();
+  });
+
+  router.use('/test', async (ctx, next) => {
 
     try{
       ctx.userCartArrays = await getUsersId(ctx.inputUsersArr);

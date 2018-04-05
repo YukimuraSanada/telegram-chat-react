@@ -1,16 +1,15 @@
 //TODO split to more components
-
 import React from 'react';
 
 import { Form, Input, Button, Select, Card, Spin, Alert  } from 'antd';
 const Option = Select.Option;
 const { TextArea } = Input;
-
 import { connect } from 'react-redux';
 import { userFieldChange, chatFieldChange, submitForm } from './KickFormActions';
 
 import FormResults from './FormResults';
 import { cardStyle, areaStyle, selectStyle, alertStyle } from './KickFormStyles';
+
 
 const KickForm = ({
   onUsersChange,

@@ -1,9 +1,10 @@
 import React from 'react';
-import { Card, Col, Row, Button } from 'antd';
 
+import { Card, Col, Row, Button } from 'antd';
 import { connect } from 'react-redux';
 
 import { unban } from './KickFormActions';
+
 
 const FormResults = ({ data : { kickedUsersArr, dontKickedUsersArr, missingDbUsers }, chatId, onButtonClick }) => {
 

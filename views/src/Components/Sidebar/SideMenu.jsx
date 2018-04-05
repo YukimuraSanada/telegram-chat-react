@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Menu, Icon } from 'antd';
 const { Item } = Menu;
-
 import { Link } from 'react-router-dom';
 
 const SideMenu = () => {
