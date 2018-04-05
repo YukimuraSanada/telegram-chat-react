@@ -2,11 +2,10 @@ import React, { PureComponent } from 'react';
 
 import { Table } from 'antd';
 import axios from 'axios';
-import SearchFormtable from './SearhFormTable.jsx';
-
 import { connect } from 'react-redux';
-import { selectTableFields, loadingData } from './UserTableActions';
 
+import { selectTableFields, loadingData } from './UserTableActions';
+import SearchFormtable from './SearhFormTable';
 
 class UsersTable extends PureComponent {
 
@@ -15,7 +14,7 @@ class UsersTable extends PureComponent {
   }
 
   render() {
-    const { userTableStore : { isLoading, columns, filteredData, selectedRowKeys }, onSelectFields } = this.props;
+    const { isLoading, columns, filteredData, selectedRowKeys, onSelectFields } = this.props;
     const rowSelection = {
       selectedRowKeys,
       onChange: onSelectFields,
@@ -37,17 +36,20 @@ class UsersTable extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({ userTableStore : state.userTableState });
+const mapStateToProps = state => ({
+  isLoading : state.userTableState.isLoading ,
+  columns : state.userTableState.columns ,
+  filteredData : state.userTableState.filteredData ,
+  selectedRowKeys : state.userTableState.selectedRowKeys ,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onSelectFields : (selectedRowKeys) => {
-      dispatch(selectTableFields(selectedRowKeys));
-    },
-    getData : () => {
-      dispatch(loadingData());
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  onSelectFields : (selectedRowKeys) => {
+    dispatch(selectTableFields(selectedRowKeys));
+  },
+  getData : () => {
+    dispatch(loadingData());
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersTable);

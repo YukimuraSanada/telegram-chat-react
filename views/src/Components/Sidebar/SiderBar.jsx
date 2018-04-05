@@ -5,9 +5,9 @@ const { Sider } = Layout;
 
 import { connect } from 'react-redux';
 
-import SideMenu from './SideMenu.jsx';
+import SideMenu from './SideMenu';
 
-const SideBar = ({ sidebarStore : { collapsed } }) => {
+const SideBar = ({ collapsed }) => {
   return (
     <Sider
       trigger={null}
@@ -18,6 +18,8 @@ const SideBar = ({ sidebarStore : { collapsed } }) => {
   );
 };
 
-const mapStateToProps = state => ({ sidebarStore : state.sidebarState });
+const mapStateToProps = state => (
+  { collapsed : state.sidebarState.collapsed }
+);
 
 export default connect(mapStateToProps)(SideBar);

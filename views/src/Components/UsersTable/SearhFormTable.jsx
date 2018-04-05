@@ -2,20 +2,18 @@ import React from 'react';
 
 import {  Button, Input, Row, Col, Icon, Select} from 'antd';
 const Option = Select.Option;
-
 import { connect } from 'react-redux';
+
 import { loadingData, changeFindSelect, changeFindInput, filterData, onFindUsersAction } from './UserTableActions';
 
 const SearchFormtable = ({
   isSelected,
-  userTableStore : {
-    data,
-    findBy,
-    inputValue,
-    loading,
-    isSearchFromDisabled,
-    selectedRowKeys
-  },
+  data,
+  findBy,
+  inputValue,
+  loading,
+  isSearchFromDisabled,
+  selectedRowKeys,
   getData,
   changeFindInput,
   changeFindSelect,
@@ -58,7 +56,14 @@ const SearchFormtable = ({
   );
 };
 
-const mapStateToProps = state => ({ userTableStore : state.userTableState });
+const mapStateToProps = state => ({
+  data : state.userTableState.data,
+  findBy : state.userTableState.findBy,
+  inputValue : state.userTableState.inputValue,
+  loading : state.userTableState.loading,
+  isSearchFromDisabled : state.userTableState.isSearchFromDisabled,
+  selectedRowKeys : state.userTableState.selectedRowKeys,
+});
 
 const mapDispatchToProps = dispatch => {
   return {

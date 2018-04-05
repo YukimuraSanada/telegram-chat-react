@@ -40,10 +40,11 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
     "webpack": "^3.10.0",
+    "webpack-bundle-analyzer": "^2.11.1",
     "webpack-dev-server": "^2.11.1"
   },
   "scripts": {
-    "analyze": "webpack -p --config webpack.analyze.config.js",
+    "analyze": "set NODE_ENV=analyze&& webpack -p",
     "build": "webpack -p",
     "dev": "webpack-dev-server --hot --open",
     "start": "npm run build && node app"

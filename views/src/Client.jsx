@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom';
 
 import { Layout } from 'antd';
 
-import SideBar from './Components/Sidebar/SiderBar.jsx';
-import MainSection from './Components/MainSection.jsx';
-import './globalStyles.css';
-
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import rootReducer from './rootReducer';
 
 import { BrowserRouter } from 'react-router-dom';
+
+import SideBar from 'Components/Sidebar/SiderBar';
+import ContentSection from 'Components/ContentSection';
+import 'src/globalStyles';
+import rootReducer from 'src/rootReducer';
 
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
@@ -26,7 +26,7 @@ class App extends Component {
         <BrowserRouter>
           <Layout  style={{ minHeight: '100vh' }}>
             <SideBar/>
-            <MainSection />
+            <ContentSection />
           </Layout>
         </BrowserRouter>
       </Provider>

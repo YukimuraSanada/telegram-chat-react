@@ -51,7 +51,6 @@ const FormResults = ({ data : { kickedUsersArr, dontKickedUsersArr, missingDbUse
 };
 
 
-const mapStateToProps = state => ({ });
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -61,4 +60,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormResults);
+export default connect(null, mapDispatchToProps)(FormResults);

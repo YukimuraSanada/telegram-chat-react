@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { toggleSidebar } from './Sidebar/SidebarActions';
 
 
-const CustomHeader = ({ sidebarStore : { collapsed }, onToggle }) => {
+const CustomHeader = ({ collapsed , onToggle }) => {
 
   return (
     <Header style={{ background: '#fff', padding: 0 }}>
@@ -22,8 +22,6 @@ const CustomHeader = ({ sidebarStore : { collapsed }, onToggle }) => {
   );
 };
 
-const mapStateToProps = state => ({ sidebarStore : state.sidebarState });
-
 const mapDispatchToProps = dispatch => {
   return {
     onToggle : () => {
@@ -32,4 +30,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomHeader);
+export default connect(null, mapDispatchToProps)(CustomHeader);

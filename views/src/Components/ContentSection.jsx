@@ -5,11 +5,11 @@ const { Content } = Layout;
 import { connect } from 'react-redux';
 import { Route, withRouter  } from 'react-router-dom';
 
-import CustomHeader from './CustomHeader.jsx';
-import KickForm from './KickForm/KickForm.jsx';
-import UsersTable from './UsersTable/UsersTable.jsx';
+import CustomHeader from 'Components/CustomHeader';
+import KickForm from 'Components/KickForm/KickForm';
+import UsersTable from 'Components/UsersTable/UsersTable';
 
-const MainSection = ({ sidebarStore : { collapsed } }) => {
+const MainSection = ({ collapsed }) => {
 
   return (
     <Layout>
@@ -22,6 +22,8 @@ const MainSection = ({ sidebarStore : { collapsed } }) => {
   );
 };
 
-const mapStateToProps = state => ({ sidebarStore : state.sidebarState });
+const mapStateToProps = state => (
+  { collapsed : state.sidebarState.collapsed }
+);
 
 export default withRouter(connect(mapStateToProps)(MainSection));
