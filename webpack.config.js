@@ -6,11 +6,12 @@ const pluginsArr = ANALYZE ? [new BundleAnalyzerPlugin()] : [];
 
 module.exports = {
 
-  entry: ['babel-polyfill', "./views/src/Client.jsx"],
+  entry: ['babel-polyfill', "./views/src/App.jsx"],
   output:{
     path: path.resolve(__dirname, 'views/public'),
     publicPath: '/',
-    filename: "bundle.js"
+    filename: '[name].bundle.js',
+    chunkFilename: '[id].bundle.js',
   },
   resolve: {
     extensions: ['.js', '.json', '.jsx', '.css','.scss'],
