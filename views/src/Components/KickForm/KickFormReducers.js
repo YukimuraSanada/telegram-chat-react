@@ -2,7 +2,9 @@ const initialState = {
   textareaVal : '',
   selectVal : 'Choose the chat',
   isLoading : false,
-  resData : {},
+  kickedUsersArr : [],
+  dontKickedUsersArr : [],
+  missingDbUsers : [],
   error : ''
 };
 
@@ -16,8 +18,12 @@ export const kickFormReducer = (state = initialState, action) => {
     return { ...state, isLoading : true, error : '' };
   case 'SUCCESS_REQUEST':
     return { ...state, isLoading : false };
-  case 'UPDATE_DATA_AFTER_REQUEST':
-    return { ...state, resData : action.payload };
+  case 'UPDATE_DONT_KICKED_USERS':
+    return { ...state, dontKickedUsersArr : [ ...state.dontKickedUsersArr, action.payload] };
+  case 'UPDATE_KICKED_USERS':
+    return { ...state, kickedUsersArr : [ ...state.kickedUsersArr, action.payload] };
+  case 'UPDATE_MISSING_DB_USERS':
+    return { ...state, missingDbUsers : action.payload };
   case 'ERROR_REQUEST':
     return { ...state, isLoading : false, error : action.payload };
   case 'RESET_FORM':

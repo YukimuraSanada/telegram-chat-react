@@ -5,8 +5,8 @@ import { Form, Input, Button, Select, Card, Spin, Alert  } from 'antd';
 const Option = Select.Option;
 const { TextArea } = Input;
 import { connect } from 'react-redux';
-import { userFieldChange, chatFieldChange, submitForm } from './KickFormActions';
 
+import { userFieldChange, chatFieldChange, submitForm } from './KickFormActions';
 import FormResults from './FormResults';
 import { cardStyle, areaStyle, selectStyle, alertStyle } from './KickFormStyles';
 
@@ -16,7 +16,9 @@ const KickForm = ({
   onSelectChange,
   textareaVal,
   selectVal,
-  resData,
+  dontKickedUsersArr,
+  kickedUsersArr,
+  missingDbUsers,
   isLoading,
   error,
   onSubmitForm }) => {
@@ -30,9 +32,17 @@ const KickForm = ({
     onSubmitForm(data);
   };
 
-  const isResNotEmpty = !!Object.keys(resData).length;
 
   const areaSize = { minRows: 4, maxRows: 10 };
+
+
+  const resData = {
+    kickedUsersArr,
+    dontKickedUsersArr,
+    missingDbUsers
+  };
+
+  const isResNotEmpty = !!Object.keys(resData).length;
 
   return (
     <div>
@@ -79,7 +89,9 @@ const KickForm = ({
 const mapStateToProps = state => ({
   textareaVal : state.kickFormState.textareaVal,
   selectVal : state.kickFormState.selectVal,
-  resData : state.kickFormState.resData,
+  dontKickedUsersArr : state.kickFormState.dontKickedUsersArr,
+  kickedUsersArr : state.kickFormState.kickedUsersArr,
+  missingDbUsers : state.kickFormState.missingDbUsers,
   isLoading : state.kickFormState.isLoading,
   error : state.kickFormState.error,
 });

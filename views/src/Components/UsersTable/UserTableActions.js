@@ -59,7 +59,7 @@ export const loadingData = () => async (dispatch) => {
 
   dispatch(startLoading);
   try{
-    let rslt = await axios.get('http://localhost:3030/users');
+    let rslt = await axios.get('/users');
     dispatch(succesRequestTable(rslt.data));
   }
   catch(err){

@@ -6,9 +6,14 @@ const RESET_FORM = 'RESET_FORM';
 const START_REQUEST = 'START_REQUEST';
 const UPDATE_DATA_AFTER_REQUEST = 'UPDATE_DATA_AFTER_REQUEST';
 
+const UPDATE_KICKED_USERS = 'UPDATE_KICKED_USERS';
+const UPDATE_DONT_KICKED_USERS = 'UPDATE_DONT_KICKED_USERS';
+const UPDATE_MISSING_DB_USERS = 'UPDATE_MISSING_DB_USERS';
 
 import { notification } from 'antd';
 import axios from 'axios';
+import openSocket from 'socket.io-client';
+const socket = openSocket('http://localhost:3030');
 
 export const userFieldChange = val => {
   return {
@@ -26,13 +31,6 @@ export const chatFieldChange = val => {
 
 export const successRequest = {
   type : SUCCESS_REQUEST
-};
-
-export const updateDataAfterSuccess = req => {
-  return {
-    type : UPDATE_DATA_AFTER_REQUEST,
-    payload :  req
-  };
 };
 
 export const errorRequest = err => {
@@ -66,38 +64,65 @@ const notificationError = (err) => {
   });
 };
 
-export const submitForm = data => async dispatch => {
-  try{
-    dispatch(startRequest);
-    let res = await axios.post('http://localhost:3030/test', data);
-    dispatch(updateDataAfterSuccess(res.data));
-    dispatch(successRequest);
+
+export const submitForm = data =>  dispatch => {
+
+  socket.emit('KICK_USERS_REQUEST', data);
+
+  socket.on('DONT_KICK_USER', msg => {
+    console.log('DONT_KICK_USER', msg);
+    dispatch(updateDontKickedUsers(msg));
+  });
+  socket.on('KICK_USER', msg => {
+    console.log('KICK_USER', msg);
+    dispatch(updateKickedUsers(msg));
+  });
+  socket.on('MISSING_DB_USERS', msg => {
+    console.log('MISSING_DB_USERS', msg);
+    dispatch(updateMissingDBUsers(msg));
+  });
+  socket.on('FINISH_REQUEST', () => {
     notificationSuccess();
-  }
-  catch(err){
-    console.dir(err);
-    dispatch(errorRequest(err.message));
-    notificationError(err.message);
-  }
-  finally{
     dispatch(resetForm);
-  }
+  });
+
 };
 
-export const unban = data => async dispatch => {
-  try{
-    dispatch(startRequest);
-    let res = await axios.post('http://localhost:3030/unban', data);
-    console.log(res);
-    dispatch(successRequest);
+export const updateKickedUsers = user => {
+  return {
+    type : UPDATE_KICKED_USERS,
+    payload :  user
+  };
+};
+
+export const updateDontKickedUsers = user => {
+  return {
+    type : UPDATE_DONT_KICKED_USERS,
+    payload :  user
+  };
+};
+
+export const updateMissingDBUsers = users => {
+  return {
+    type : UPDATE_MISSING_DB_USERS,
+    payload :  users
+  };
+};
+
+
+export const unban = data => dispatch => {
+
+  socket.emit('UNBAN_USERS_REQUEST', data);
+
+  socket.on('UNBAN_USER', msg => {
+    console.log('UNBAN_USER', msg);
+  });
+  socket.on('DONT_UNBAN_USER', msg => {
+    console.log('DONT_UNBAN_USER', msg);
+  });
+
+  socket.on('FINISH_REQUEST', () => {
     notificationSuccess();
-  }
-  catch(err){
-    console.dir(err);
-    dispatch(errorRequest(err.message));
-    notificationError(err.message);
-  }
-  finally{
-    dispatch(resetForm);
-  }
+  });
+
 };

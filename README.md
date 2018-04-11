@@ -6,9 +6,6 @@
 + Add tbotrequest to get user info
 + ~~Code splitting (React Router)~~
   + consider this point(UX)
-+ ~~method to unban users~~
-  + REFACTOR THIS!!!
-  + Add component to watch unban users
-  + Refactor Kickform components
-+ Refactor view to presentional/container components
++ Add progressbar to KickForm
++ Add unban labels to KickForm
 + Refactor all styles
