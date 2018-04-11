@@ -13,7 +13,7 @@ const UPDATE_MISSING_DB_USERS = 'UPDATE_MISSING_DB_USERS';
 import { notification } from 'antd';
 import axios from 'axios';
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:3030');
+const socket = openSocket(window.location.href);
 
 export const userFieldChange = val => {
   return {

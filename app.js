@@ -37,7 +37,7 @@ const startServer = async () => {
     http.listen(PORT, () => {
       console.log(`listening on ${PORT}`);
     });
-    // require('./routes')(app);
+    require('./routes')(app);
 
     bot.on('message', async msg => {
       try{

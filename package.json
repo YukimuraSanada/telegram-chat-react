@@ -52,7 +52,7 @@
     "analyze": "set NODE_ENV=analyze&& webpack -p",
     "build": "webpack -p",
     "dev": "webpack-dev-server --hot --open",
-    "start": "npm run build && node app"
+    "start": "node app"
   },
   "repository": {
     "type": "git",
